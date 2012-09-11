@@ -42,9 +42,7 @@ class HW02App : public AppBasic {
 		static const int AppHeight=600;
 		static const int TextureSize=1024; //Must be the next power of 2 bigger or equal to app dimensions
 	
-		int frame_number_;
-
-		
+		int frame_number_;		
 };
 
 
@@ -58,11 +56,13 @@ void HW02App::prepareSettings(Settings* settings){
 void HW02App::setup()
 {
 
-	/**create Head node
+	/**
+	?create Head node
 	*
+	/// make node call
+	?  addNode();
 	*/
-	// make node call
-	// addNode();
+	
 
 }
 
