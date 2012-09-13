@@ -29,13 +29,15 @@ class HW02App : public AppBasic {
   public:
 	void mouseDown( MouseEvent event );	
 	void keyDown( KeyEvent event );
-	void prepareSettings(Settings* settings);
+
+	
 	void setup();
 	void update();
 	void draw();
 
+	void prepareSettings(Settings* settings);
 
-	private:
+  private:
 
 		//Width and height of the screen
 		static const int AppWidth=800;
@@ -57,9 +59,19 @@ void HW02App::setup()
 {
 
 	/**
-	?create Head node
+
+	First:
+	?construct an empty List first?
+	or create it with one Rect object? 
+	LinkList List 
 	*
-	/// make node call
+	Second:
+	/// make node call 4x for rectangles
+	List.
+	Rect(int position, int startX, int startY, int width, int height);
+
+	Third:
+	?? how do we add this rect node to the link list
 	?  addNode();
 	*/
 	
@@ -67,12 +79,23 @@ void HW02App::setup()
 }
 
 
-void HW02App::mouseDown( MouseEvent event )
-{
+void HW02App::mouseDown( MouseEvent event ) {
+	
+	/// if doing something with coordinates:
 	//int x = event.getX();
 	//int y = event.getY();
 	
+	 if( event.isRight() ) {
+		 // call reorder list
+    }
+
+	  if( event.isLeft() ) {
+		 // call something list
+    }
 }
+
+
+
 
 
 /**
@@ -100,12 +123,19 @@ void HW02App::update()
 
 	// call addNode for 3 rects
 
+
+	// keep the instructions in the console screen
+	 console() << "Press Q for something. \n Press W for something else. \n Press E for something else. \n Press T for something else. \n Press ? to toggle the display. \n "  << std::endl;
+
 }
 
 void HW02App::draw()
 {
 	// clear out the window with black
 	gl::clear( Color( 0, 0, 0 ) ); 
+
+
+
 }
 
 CINDER_APP_BASIC( HW02App, RendererGl )

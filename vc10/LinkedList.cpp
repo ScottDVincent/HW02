@@ -1,6 +1,7 @@
 /*
- * @file Rect.cpp
-  * CSE 274 - Fall 2012
+ * @file LinkedList.cpp
+ *
+ * CSE 274 - Fall 2012
  * My solution for HW02.
  *
  * @author Scott Vincent
@@ -15,7 +16,7 @@
 #include "cinder/gl/gl.h"
 #include "cinder/app/AppBasic.h"
 #include "cinder/Rand.h";
-#include "Rect.h"
+#include "LinkedList.h"
 
 using namespace ci;
 using namespace ci::app;
@@ -23,11 +24,11 @@ using namespace std;		// standard library
 
 
 
-//construct a Rectangle object
-Rect::Rect(int position, int startX, int startY, int width, int height);  // argument constructor
+//construct a LinkedList  object
+//LinkedList::LinkedList(int position, int startX, int startY, int width, int height);  // argument constructor
 
 	/**
-//Rect::Rect(int depth, Vec2f position, float radius){
+//LinkedList::LinkedList(int depth, Vec2f position, float radius){
 	//This is a circular list, so a list of length 1 has
 	// next and prev pointing to itself
 	next_ = prev_ = this;
@@ -47,13 +48,13 @@ Rect::Rect(int position, int startX, int startY, int width, int height);  // arg
 
 
 
-// argument is a int, Rect object for project
-void Rect::addNode (Rect* new_rect, Rect* next_rect){
+// argument is a int, LinkedList object for project
+void LinkedList::addNode (LinkedList* new_LinkedList, LinkedList* next_LinkedList){
 
 	/// you would need to dereference the arguments to use the value
-	// *new_rect = something
+	// *new_LinkedList = something
 
-	// ? do I need to pass in the Rect* next_rect ?
+	// ? do I need to pass in the LinkedList* next_LinkedList ?
 	
 	/**
 	/// in simple terms
@@ -63,7 +64,7 @@ void Rect::addNode (Rect* new_rect, Rect* next_rect){
 
 	 {
 	   link* newlink = new link;          // make a new link
-	   newlink->rect = new_rect;          // give it data
+	   newlink->LinkedList = new_LinkedList;          // give it data
 	   newlink->next = first;             // it points to next link
 	   first = newlink;                   // now first points to this
 	   }
@@ -73,15 +74,15 @@ void Rect::addNode (Rect* new_rect, Rect* next_rect){
 }
 
 
-// argument is a int, Rect object for project
-void Rect::deleteNode (Rect* new_rect, Rect* next_rect){
+// argument is a int, LinkedList object for project
+void LinkedList::deleteNode (LinkedList* new_LinkedList, LinkedList* next_LinkedList){
 	t = x->next;		//(1) sets t up as the link from x
 	x->next = t->next;   //(2) x link points to whatever t link points to
 	delete t;			//(3) the memory space for t is deleted 
 }
 
-// argument is a int, Rect object for project
-void Rect::reverseList (Rect* new_rect, Rect* next_rect){
+// argument is a int, LinkedList object for project
+void LinkedList::reverseList (LinkedList* new_LinkedList, LinkedList* next_LinkedList){
 	
 	/*** FROM BOOK
 	link reverse(link x)
@@ -94,23 +95,23 @@ void Rect::reverseList (Rect* new_rect, Rect* next_rect){
 
 }
 
-// argument is a int, Rect object for project
-void Rect::reorderList (Rect* new_rect, Rect* next_rect){
+// argument is a int, LinkedList object for project
+void LinkedList::reorderList (LinkedList* new_LinkedList, LinkedList* next_LinkedList){
 	t = x->next;		//(1) sets t up as the link from x
 	x->next = t->next;   //(2) x link points to whatever t link points to
 
 }
 
-// argument is a int, Rect object for project
-void Rect::traverseList (Rect* new_rect, Rect* next_rect){
+// argument is a int, LinkedList object for project
+void LinkedList::traverseList (LinkedList* new_LinkedList, LinkedList* next_LinkedList){
 		
 	for (link t = x; t != 0; t = t->next) 
 			displayNode(t->item);			// 
 }
 
 
-// argument is a int, Rect object for project
-void Rect::displayList (int num, node* t){
+// argument is a int, LinkedList object for project
+void LinkedList::displayList (int num, node* t){
 			// put the display here ? cout<<
 
 
