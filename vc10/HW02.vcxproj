@@ -105,12 +105,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\src\HW02App.cpp" />
-    <ClCompile Include="LinkedList.cpp" />
+    <ClCompile Include="List.cpp" />
     <ClCompile Include="Rect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h" />
-    <ClInclude Include="LinkedList.h" />
+    <ClInclude Include="List.h" />
     <ClInclude Include="Rect.h" />
   </ItemGroup>
   <ItemGroup>

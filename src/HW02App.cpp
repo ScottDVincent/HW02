@@ -16,7 +16,11 @@
 #include "cinder/app/AppBasic.h"
 #include "cinder/gl/gl.h"
 #include "cinder/app/App.h"
+#include "cinder/Text.h"
+
 #include "Rect.h"   //class
+#include "List.h"   //
+
 
 
 using namespace ci;
@@ -27,15 +31,23 @@ using namespace std;
 class HW02App : public AppBasic {
 
   public:
+
+	// Cinder specific methods
 	void mouseDown( MouseEvent event );	
 	void keyDown( KeyEvent event );
-
+	void prepareSettings(Settings* settings);
 	
 	void setup();
 	void update();
 	void draw();
 
-	void prepareSettings(Settings* settings);
+	// set the colsole function to on
+	bool cons_On;
+
+	// my methods
+	// Im not sure I want this here
+	//void insert_after (Node*, Rect);
+
 
   private:
 
@@ -44,7 +56,6 @@ class HW02App : public AppBasic {
 		static const int AppHeight=600;
 		static const int TextureSize=1024; //Must be the next power of 2 bigger or equal to app dimensions
 	
-		int frame_number_;		
 };
 
 
@@ -55,15 +66,26 @@ void HW02App::prepareSettings(Settings* settings){
 	settings->setResizable(false);
 }
 
+/**
+// Im not sure I want this here
+
+void HW02App::insert_after (Node* where, Rect r){
+
+}
+*/
+
+
 void HW02App::setup()
 {
+	// set the console function to on
+	bool cons_On = true;
 
 	/**
 
 	First:
-	?construct an empty List first?
+	?construct an empty List?
 	or create it with one Rect object? 
-	LinkList List 
+	Node List 
 	*
 	Second:
 	/// make node call 4x for rectangles
@@ -96,12 +118,12 @@ void HW02App::mouseDown( MouseEvent event ) {
 
 
 
-
-
 /**
 libcinder.org/docs/v0.8.2/hello_cinder_chapter3.html
 */
 void  HW02App::keyDown( KeyEvent event ) {
+	
+
     if( event.getChar() == 'q' ){
         // call delete first node
     } else if( event.getChar() == 'w' ){
@@ -111,19 +133,28 @@ void  HW02App::keyDown( KeyEvent event ) {
     } else if( event.getChar() == 'r' ){
         //call move rect node
     } else if( event.getChar() == '?' ){
-        //call hideConsole method
+        if (cons_On) {
+			// toggle console to off)
+			// mToggleConsole = ! mRenderImage;
+		} else { 
+			// toggle to on 
+			//cons_On = true;
+			//mToggleConsoles = ! mRenderParticles;
+
+		}
     }
-}
+
+
+} // end keyDown
+
+
+    
+
 
 
 void HW02App::update()
 {
 	// show console with controls q, w, e, r, t,
-
-
-	// call addNode for 3 rects
-
-
 	// keep the instructions in the console screen
 	 console() << "Press Q for something. \n Press W for something else. \n Press E for something else. \n Press T for something else. \n Press ? to toggle the display. \n "  << std::endl;
 
@@ -133,6 +164,12 @@ void HW02App::draw()
 {
 	// clear out the window with black
 	gl::clear( Color( 0, 0, 0 ) ); 
+
+
+	// for drawing text on screen
+	//http://libcinder.org/docs/v0.8.4/_text_8h.html
+	//http://libcinder.org/docs/v0.8.4/classcinder_1_1_text_layout.html
+	//http://libcinder.org/docs/v0.8.4/classcinder_1_1_text_box.html
 
 
 

@@ -1,11 +1,10 @@
 /*
- * @file LinkedList.cpp
- *
- * CSE 274 - Fall 2012
- * My solution for HW02.
- *
+ * @file Node.cpp
+ *``
  * @author Scott Vincent
  * @date 09/09/2012
+ * CSE 274 - Fall 2012
+ * My solution for HW02.
  *
  * @note This file is (c) 2012. It is licensed under the 
  * CC BY 3.0 license (http://creativecommons.org/licenses/by/3.0/),
@@ -16,7 +15,8 @@
 #include "cinder/gl/gl.h"
 #include "cinder/app/AppBasic.h"
 #include "cinder/Rand.h";
-#include "LinkedList.h"
+#include "List.h"
+#include "Rect.h"
 
 using namespace ci;
 using namespace ci::app;
@@ -24,11 +24,11 @@ using namespace std;		// standard library
 
 
 
-//construct a LinkedList  object
-//LinkedList::LinkedList(int position, int startX, int startY, int width, int height);  // argument constructor
+///construct a Node  object
 
-	/**
-//LinkedList::LinkedList(int depth, Vec2f position, float radius){
+
+/**
+//Diamond::Diamond(int depth, Vec2f position, float radius){
 	//This is a circular list, so a list of length 1 has
 	// next and prev pointing to itself
 	next_ = prev_ = this;
@@ -46,15 +46,26 @@ using namespace std;		// standard library
 	*/
 
 
+//
+// a
+void insert_after (Node* where, Rect new_rect) {
+
+	Node* theNode_p = new Node;			// allocating space for a new Node pointer
+	theNode_p -> data_ =  new Rect;		// the data will be a new rectangle object
+	theNode_p -> next_ = where -> next_;// points the new node to what the previous node was pointing to
+	where -> next_ = theNode_p;		// points to newNode
+}
 
 
-// argument is a int, LinkedList object for project
-void LinkedList::addNode (LinkedList* new_LinkedList, LinkedList* next_LinkedList){
+
+
+// argument is a int, Node object for project
+void Node::addNode (Node* new_Node, Node* next_Node){
 
 	/// you would need to dereference the arguments to use the value
-	// *new_LinkedList = something
+	// *new_Node = something
 
-	// ? do I need to pass in the LinkedList* next_LinkedList ?
+	// ? do I need to pass in the Node* next_Node ?
 	
 	/**
 	/// in simple terms
@@ -64,7 +75,7 @@ void LinkedList::addNode (LinkedList* new_LinkedList, LinkedList* next_LinkedLis
 
 	 {
 	   link* newlink = new link;          // make a new link
-	   newlink->LinkedList = new_LinkedList;          // give it data
+	   newlink->Node = new_Node;          // give it data
 	   newlink->next = first;             // it points to next link
 	   first = newlink;                   // now first points to this
 	   }
@@ -74,15 +85,15 @@ void LinkedList::addNode (LinkedList* new_LinkedList, LinkedList* next_LinkedLis
 }
 
 
-// argument is a int, LinkedList object for project
-void LinkedList::deleteNode (LinkedList* new_LinkedList, LinkedList* next_LinkedList){
+// argument is a int, Node object for project
+void Node::deleteNode (Node* new_Node, Node* next_Node){
 	t = x->next;		//(1) sets t up as the link from x
 	x->next = t->next;   //(2) x link points to whatever t link points to
 	delete t;			//(3) the memory space for t is deleted 
 }
 
-// argument is a int, LinkedList object for project
-void LinkedList::reverseList (LinkedList* new_LinkedList, LinkedList* next_LinkedList){
+// argument is a int, Node object for project
+void Node::reverseList (Node* new_Node, Node* next_Node){
 	
 	/*** FROM BOOK
 	link reverse(link x)
@@ -95,23 +106,23 @@ void LinkedList::reverseList (LinkedList* new_LinkedList, LinkedList* next_Linke
 
 }
 
-// argument is a int, LinkedList object for project
-void LinkedList::reorderList (LinkedList* new_LinkedList, LinkedList* next_LinkedList){
+// argument is a int, Node object for project
+void Node::reorderList (Node* new_Node, Node* next_Node){
 	t = x->next;		//(1) sets t up as the link from x
 	x->next = t->next;   //(2) x link points to whatever t link points to
 
 }
 
-// argument is a int, LinkedList object for project
-void LinkedList::traverseList (LinkedList* new_LinkedList, LinkedList* next_LinkedList){
+// argument is a int, Node object for project
+void Node::traverseList (Node* new_Node, Node* next_Node){
 		
 	for (link t = x; t != 0; t = t->next) 
 			displayNode(t->item);			// 
 }
 
 
-// argument is a int, LinkedList object for project
-void LinkedList::displayList (int num, node* t){
+// argument is a int, Node object for project
+void Node::displayList (int num, node* t){
 			// put the display here ? cout<<
 
 
