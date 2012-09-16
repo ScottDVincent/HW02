@@ -1,4 +1,5 @@
-/* * @file Node.h
+/* 
+ * @file Node.h
  *  
  * @author Scott Vincent
  * @date 09-09-2012
@@ -8,23 +9,21 @@
  *
  * @note This file is (c) 2012. It is licensed under the 
  * CC BY 3.0 license (http://creativecommons.org/licenses/by/3.0/),
- * which means you are free to use, share, and remix it as long as you
+ * which means you are free to use, share, mashup and remix it as long as you
  * give attribution. Commercial uses are allowed.
  *
 
- * this is an example INTERFACE from the text:
 
-	
 		// other ideas
 		http://www.martinbroadhurst.com/articles/circular-linked-list.html
 
 
  */ 
 
-	// our linked list data structure
+	// our linked list data structure, but really we are using a class so we shouldn't need this
 		struct node {
 			//Item item; 	   		// place for the data
-			Node rect;				// Rect object
+			Rect rect;				// Rect object
 			//int item;				// place for the data
 			node* nextNode;			// a pointer named next of type 'node'
 		
@@ -49,40 +48,49 @@
 		link t = new node(x, t);
 
 
-class Node{
+class LinkedList{
 public:		
 
-	//LinkedList ();	// no argument constructor
+	// constructor
 
-	Node() {
+	LinkedList();	// no argument constructor
+					// this will create the list structure and the node class (in List.cpp) will 
+					// complete Node operations on the list
+	
+	LinkedList(Node* sentinal);
 
-		root = NULL;
-	}
-		
+			
 	/**
 	Member Variables
 
-	/// TYPES: from books
+	/// TYPES: from book
 		typedef int Item;
 		struct node { Item item; node *next; };
 		typedef node *link;
 		typedef link Node;
 	*/
 
+	// list specific
+	int length();
+	bool empty(); 
+	bool atEnd();
 
+	// external node pointers to the list
+	Node* sentinal_;
+	Node* current_;
 	Node* next_;
 	Node* previous_;
 	Node* child_;
 
-	Rect data_;
-
-	
-
+	Rect data_;		// a Rect object to hold data	
+		
+	int nodeCount_ ;		// number of nodes in the list
+	nodeCount_ = 0;
 
 	/**
 	Member Methods
 	
-		/// METHODS: from books
+		/// METHODS: from book
 		void construct(int);
 		Node newNode(int);
 		void deleteNode(Node);
@@ -96,10 +104,11 @@ public:
 
 	/**
 	 @name: _insert_after
-	 @param: Node*
-	 @param: Rect 
+	 @param: Rect  : the rectangle object 
+	 @param: Node* : a node pointer to where the item is being placed in the list
+	
 	*/
-	void _insert_after (Node* where, Rect new_rect);
+	void insertAfter (Rect new_rect, Node* where);
 
 
 	
@@ -111,27 +120,15 @@ public:
 	 ? should I take a the pointer in by reference (&) or by value (*)?
 	 == by (*) for pointers
 	*/
-	void addNode (Node* new_Node, Node* next_Node);
+	void addNode (Rect rect, Node* next_Node);
 	
 
-	/**
-	* @param Rect new_rect: The addy of addRect object
-		
-	? do I need to pass in the Rect* next_rect ?
-
-	 ? should I take a the pointer in by reference (&) or by value (*)?
-	 == by (*) for pointers
-	*/
-	void insert_after (Node* where, Rect new_rect){
-
-
-	}
 
 	/**
-	* @param Rect* new_rect: Pointer to addy of new_rect object
-	* @param Rect* next_rect: Pointer to addy of the link next_rect
+	*
+	* @param Node* the_node: Pointer to addy of the node
 	*/
-	void deleteNode (Node* new_rect, Node* next_rect);
+	void deleteNode (Node* the_node);
 
 	/**
 	* @param Rect* new_rect: Pointer to addy of new_rect object
@@ -166,7 +163,7 @@ public:
 	*/
 	int CountItems ();
 
-private:
+
 	
 
 

@@ -25,7 +25,7 @@ public:
 	///Constructors
 
 	Rect ();	// no argument constructor
-	Rect (int position, int startX, int startY, int width, int height);  // argument constructor
+	Rect (uint8_t* pixels, int x_width, int y_height, int x_origin, int y_origin, Color8u c);  // argument constructor
 
 	///Methods
 
@@ -37,7 +37,7 @@ public:
 	@param: int width
 	@param: int height
 	*/
-	void drawRect(int position, int startX, int startY, int width, int height);
+	void drawRect(uint8_t* pixels, int x_width, int y_height, int x_origin, int y_origin, Color8u c);
 
 
 };     // end declarations and Rect.h file

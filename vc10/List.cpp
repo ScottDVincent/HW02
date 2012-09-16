@@ -26,7 +26,33 @@ using namespace std;		// standard library
 
 ///construct a Node  object
 
+class Node {
 
+public: 
+
+
+// STEP 1
+
+	/**
+	? Have to create a list with one empty node in it.
+	something like...
+	LinkedList::LinkedList (Node* sentinal)
+
+	*/
+
+	//constructor
+	Node() {
+
+		sentinal_ = NULL;
+	};
+
+	
+	//Member Variables
+	
+
+
+	
+}
 /**
 //Diamond::Diamond(int depth, Vec2f position, float radius){
 	//This is a circular list, so a list of length 1 has
@@ -46,21 +72,49 @@ using namespace std;		// standard library
 	*/
 
 
-//
-// a
-void insert_after (Node* where, Rect new_rect) {
 
+
+////if this is our data structure object implementation then maybe don't need a struct?
+// 
+void insertAfter (Rect new_rect, Node* where) {
+
+	/**
+	* in this example "where" is the node we are placing a new node after
+	*/
+	Node* tmpPrev_;						// ? should this be a Node* type ?
 	Node* theNode_p = new Node;			// allocating space for a new Node pointer
-	theNode_p -> data_ =  new Rect;		// the data will be a new rectangle object
-	theNode_p -> next_ = where -> next_;// points the new node to what the previous node was pointing to
-	where -> next_ = theNode_p;		// points to newNode
+
+
+	// DO THE NODE SWITCHING
+	newNode_p -> new_rect =  new Rect;	// 1: the data will be a new rectangle object
+
+	tmpPrev_ = &where -> prev_;			// 2: tmpPrev holds the addy of "where"'s next_'s prev_ : 
+										// ? did I place the & properly ?
+										// pointer var tmpPrev_ now holds the memory address of where -> prev_
+										// see #3
+
+		// #3: I want the value of tmpPrev to be changed to the location of theNode	
+		// ? how to code... (see c++ in 15; p433-35 for concept)
+		// ? where's next_'s prev_ = theNode_p   // 6: problem is that "where"'s next_'s "previous_" is still poiningt at "where" and NOT theNode
+	 *tmpPrev_ = &theNode_p;   //  the dereferenced value of tmpPrev_ = the address of theNode_p
+				
+			// bounds checking:	// ?? will I run into a situation where I will ever dereference a NULL next pointer? 	
+								// == I don't think so. All nodes should always have a valid pointer				
+	
+	newNode_p -> next_ = where -> next_;// 4: points the new Node to what it's previous node was pointing to
+	where -> next_ = newNode_p;			// 5: where's next_ now points to the newNode
+	newNode_p -> prev_= where;			// 6: theNode's prev_ now points behind it to where	
+							  
+
+	nodeCount_ += nodeCount_ ;			// increase nodeCount
 }
 
 
 
 
+
 // argument is a int, Node object for project
-void Node::addNode (Node* new_Node, Node* next_Node){
+void Node::addNode (Rect new_rect, Node* next_Node){
 
 	/// you would need to dereference the arguments to use the value
 	// *new_Node = something
@@ -86,16 +140,18 @@ void Node::addNode (Node* new_Node, Node* next_Node){
 
 
 // argument is a int, Node object for project
-void Node::deleteNode (Node* new_Node, Node* next_Node){
-	t = x->next;		//(1) sets t up as the link from x
+void Node::deleteNode (Node* the_node){
+	t = x->next;		 //(1) sets t up as the link from x
 	x->next = t->next;   //(2) x link points to whatever t link points to
-	delete t;			//(3) the memory space for t is deleted 
+	delete t;			 //(3) the memory space for t is deleted 
+
+	nodeCount_ -= nodeCount_;		// decement count of items in list
 }
 
 // argument is a int, Node object for project
-void Node::reverseList (Node* new_Node, Node* next_Node){
+void LinkedList::reverseList (Node* new_Node, Node* next_Node){
 	
-	/*** FROM BOOK
+	/*** FROM BOOK USING STRUCT
 	link reverse(link x)
   { link t, y = x, r = 0;
     while (y != 0)
@@ -103,6 +159,57 @@ void Node::reverseList (Node* new_Node, Node* next_Node){
     return r;
   }
   */
+
+	/**
+	(1 : seems complicated)
+	1-2-3-4 becomes 4-3-2-1
+	switch pointers; use a tempNode to hold the value of the one you're switching
+	4 -> 1
+	3-> 2
+	2 -> 3
+
+	or 
+
+	(2 : seems fairly practical)
+	Swap pointers of data item
+	4 <-> 1
+	3 <-> 2
+
+	or
+
+	(3 : seem practical as well and gives me the bonus of using a circular list)
+
+	Use a double linked list with next_ and prev_ so that you switch those values: 	1-2-3-4
+	
+	vars: node* sentinal, current_, prev_, next_, tmpNext;	// declare these above in class declaration
+	
+	(1) get to end of list 
+			end_ = sentinel -> prev_
+			current_ = end_ (4 node)
+
+	(2) and go backwards
+
+		do {
+
+	(3) 
+	Before  Node		After	Node			What got changed				Temp Node for transition
+	4 prev_ = 3			4 prev_ = 1				4,3 & 1 are same addy,						
+	4 next_ = 1         4 next_ = 3				only the prev_ & next_ changed
+	
+	tmpNext_ = current_ -> next_;				// set tmpNext to the current_ node's next pointer
+	current_ -> next_ = current -> prev_;		// set current node's next_ pointer to 
+										        //  the current_'s previous pointer
+	current_ -> prev_ = current_ -> tmpNext_;   // set current node's previous pointer to 
+										        //  the current_'s next pointer (stored in tmpNext_)
+
+	(4)	//move current back one
+	current_ = current -> prev_;
+
+	// we want the changes to go back through the sentinel and stop at the end / begin node
+	while (current_ != end);
+
+	}
+	*/
 
 }
 

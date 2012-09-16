@@ -89,8 +89,15 @@ void HW02App::setup()
 	*
 	Second:
 	/// make node call 4x for rectangles
-	List.
-	Rect(int position, int startX, int startY, int width, int height);
+	Rect::rect(int position, int startX, int startY, int width, int height, color() );
+	Rect::rect(int position, startX+5, startY+5, width-20, height-20, (200,100,50) );
+
+	Rect::rect(int position, 100, 50, 100, 100, (200,100,50) );
+	Rect::rect(int position, 105, 55, 70, 70, (100,200,50) );
+	Rect::rect(int position, 110, 60, 40, 40, (20,10,150) );
+	Rect::rect(int position, 115, 65, 20, 20, (150,150,150) );
+
+
 
 	Third:
 	?? how do we add this rect node to the link list

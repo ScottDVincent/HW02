@@ -26,12 +26,23 @@ class Rect {
 
 public:
 
-	void Rect::drawRect(int position, int startX, int startY, int width, int height){
+	void Rect::drawRect(uint8_t* pixels, int x_width, int y_height, int x_origin, int y_origin, Color8u cn) {
 
+		if ( (x_width < AppWidth) && (y_height < AppHeight) ){
+		
+		// start at y_origin
+		for ( int y = y_origin; y <= (y_height); y++ ){
+			for ( int  x = x_origin; x <= (x_origin + x_width); x++ ) {
+				pixels [3* (x + y*(TextureSize))  ] = c.r;
+				pixels [3* (x + y*(TextureSize))+1] = c.g;
+				pixels [3* (x + y*(TextureSize))+2] = c.b;
+				//rect_width-1
+				}
+			}
+		} //end if
 
-
-	}
+	} // end drawRect
 
 private:
 
-}
+}  // end definitions and 
