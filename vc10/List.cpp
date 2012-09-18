@@ -16,7 +16,7 @@
 #include "cinder/app/AppBasic.h"
 #include "cinder/Rand.h";
 #include "List.h"
-#include "Rect.h"
+
 
 using namespace ci;
 using namespace ci::app;
@@ -30,6 +30,7 @@ class Node {
 
 public: 
 
+	nodeCount_ = 0;
 
 // STEP 1
 

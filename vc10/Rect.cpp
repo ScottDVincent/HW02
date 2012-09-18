@@ -22,9 +22,25 @@ using namespace ci;
 using namespace ci::app;
 using namespace std;		// standard library
 
-class Rect {
 
-public:
+	// constructor
+	Rect::Rect (float x1, float y1, float x2, float y2)
+   {	x1_ = x1;
+		y1_ = y1;
+		x2_ = x2;
+		y2_ = y2;
+	}
+
+void Rect::drawRect(){
+
+//using cinder: http://libcinder.org/docs/v0.8.2/hello_cinder_chapter3.html
+gl::drawSolidRect(Rectf(x1_, y1_, x2_, y2_));
+
+}
+
+/**
+
+// original rect code from HW01
 
 	void Rect::drawRect(uint8_t* pixels, int x_width, int y_height, int x_origin, int y_origin, Color8u cn) {
 
@@ -42,7 +58,7 @@ public:
 		} //end if
 
 	} // end drawRect
+*/
 
-private:
+}  // end declarations 
 
-}  // end definitions and 

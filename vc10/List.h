@@ -1,5 +1,5 @@
 /* 
- * @file Node.h
+ * @file List.h
  *  
  * @author Scott Vincent
  * @date 09-09-2012
@@ -14,8 +14,8 @@
  *
 
 
-		// other ideas
-		http://www.martinbroadhurst.com/articles/circular-linked-list.html
+// other ideas
+http://www.martinbroadhurst.com/articles/circular-linked-list.html
 
 
  */ 
@@ -48,6 +48,10 @@
 		link t = new node(x, t);
 
 
+////////////////////////////////////////
+
+#include "Rect.h";
+
 class LinkedList{
 public:		
 
@@ -57,7 +61,8 @@ public:
 					// this will create the list structure and the node class (in List.cpp) will 
 					// complete Node operations on the list
 	
-	LinkedList(Node* sentinal);
+	// I"m not sure this should be defined here
+	LinkedList(Rect* rect, Node* sentinal);
 
 			
 	/**
@@ -85,7 +90,7 @@ public:
 	Rect data_;		// a Rect object to hold data	
 		
 	int nodeCount_ ;		// number of nodes in the list
-	nodeCount_ = 0;
+
 
 	/**
 	Member Methods
