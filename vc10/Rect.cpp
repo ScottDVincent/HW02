@@ -13,13 +13,9 @@
  */ 
 
 #include "cinder/gl/gl.h"
-#include "cinder/app/AppBasic.h"
-#include "cinder/Rand.h";
 #include "Rect.h"
-#include "list.h"
 
 using namespace ci;
-using namespace ci::app;
 using namespace std;		// standard library
 
 
@@ -34,7 +30,7 @@ using namespace std;		// standard library
 void Rect::drawRect(){
 
 //using cinder: http://libcinder.org/docs/v0.8.2/hello_cinder_chapter3.html
-gl::drawSolidRect(Rectf(x1_, y1_, x2_, y2_));
+gl::drawSolidRect(Rectf (x1_, y1_, x2_, y2_) );
 
 }
 
@@ -60,5 +56,5 @@ gl::drawSolidRect(Rectf(x1_, y1_, x2_, y2_));
 	} // end drawRect
 */
 
-}  // end declarations 
+
 

@@ -22,15 +22,9 @@ using namespace ci;
 using namespace ci::app;
 using namespace std;		// standard library
 
+int nodeCount_ = 0;
 
 
-///construct a Node  object
-
-class Node {
-
-public: 
-
-	nodeCount_ = 0;
 
 // STEP 1
 
@@ -38,82 +32,71 @@ public:
 	? Have to create a list with one empty node in it.
 	something like...
 	LinkedList::LinkedList (Node* sentinal)
-
 	*/
 
-	//constructor
-	Node() {
-
-		sentinal_ = NULL;
-	};
-
-	
-	//Member Variables
-	
-
-
-	
-}
-/**
-//Diamond::Diamond(int depth, Vec2f position, float radius){
-	//This is a circular list, so a list of length 1 has
-	// next and prev pointing to itself
-	next_ = prev_ = this;
-	children_ = NULL;
-	
-	position_ = position_;
-	radius_ = radius;
-	velocity_ = randVec2f();
-	
-	if(depth > 0){
-		addRandomChild(depth-1);
-		addRandomChild(depth-1);
-		addRandomChild(depth-1);
+	//Constructor for Node
+	Node::Node(){
+		next_ = prev_ = this;		// create self-referential sentinel node; the assignments go in reverse order
+		children_ = NULL;			// no children i nthis node, yet
+		rect_ = new Rect();			//
 	}
-	*/
+
+// create the inital sentinal node.
+Node* sentinel_ = new Node;		
 
 
-
-
-////if this is our data structure object implementation then maybe don't need a struct?
-// 
-void insertAfter (Rect new_rect, Node* where) {
-
+void insertAfter (Rect* new_rect, Node* cur) {
+	
 	/**
 	* in this example "where" is the node we are placing a new node after
 	*/
-	Node* tmpPrev_;						// ? should this be a Node* type ?
-	Node* theNode_p = new Node;			// allocating space for a new Node pointer
+	Node* tmpPrev;						// ? should this be a Node* type ?
+	Node* newNode_p = new Node;			// allocating space for a new Node pointer
+	
 
-
+	// create new node	
+	newNode_p -> rect_ =  new_rect;	     // 1: the data will be the rectangle info we are sending in
+	
+	
 	// DO THE NODE SWITCHING
-	newNode_p -> new_rect =  new Rect;	// 1: the data will be a new rectangle object
+	//take care if newNode_p pointers first
+	newNode_p -> prev_ = cur;					//
+	newNode_p -> next_ = cur -> next_;			//
+	
+	cur -> next_ = newNode_p;					// alter current node pointer
+	newNode_p -> next_ -> prev_ = newNode_p;	// dereference newNode_p's pointers twice
+												// set newNode_p's next_'s "previous" pointer to newNode_p			
 
-	tmpPrev_ = &where -> prev_;			// 2: tmpPrev holds the addy of "where"'s next_'s prev_ : 
+
+	/**	old code idea
+
+	tmpPrev_ = &current -> prev_;		// 2: tmpPrev holds the addy of "current"'s next_'s prev_ : 
 										// ? did I place the & properly ?
-										// pointer var tmpPrev_ now holds the memory address of where -> prev_
+										// pointer var tmpPrev_ now holds the memory address of current -> prev_
 										// see #3
 
 		// #3: I want the value of tmpPrev to be changed to the location of theNode	
 		// ? how to code... (see c++ in 15; p433-35 for concept)
-		// ? where's next_'s prev_ = theNode_p   // 6: problem is that "where"'s next_'s "previous_" is still poiningt at "where" and NOT theNode
-	 *tmpPrev_ = &theNode_p;   //  the dereferenced value of tmpPrev_ = the address of theNode_p
+		// ? current's next_'s prev_ = theNode_p   
+											// 6: problem is that "current"'s next_'s "previous_" is still poiningt at "current" and NOT theNode
+	 *tmpPrev_ = &theNode_p;				//  the dereferenced value of tmpPrev_ = the address of theNode_p
 				
-			// bounds checking:	// ?? will I run into a situation where I will ever dereference a NULL next pointer? 	
-								// == I don't think so. All nodes should always have a valid pointer				
+	 newNode_p -> -> prev_ = theNode_p;
+											// bounds checking:	// ?? will I run into a situation where I will ever dereference a NULL next pointer? 	
+											// == I don't think so. All nodes should always have a valid pointer				
 	
-	newNode_p -> next_ = where -> next_;// 4: points the new Node to what it's previous node was pointing to
-	where -> next_ = newNode_p;			// 5: where's next_ now points to the newNode
-	newNode_p -> prev_= where;			// 6: theNode's prev_ now points behind it to where	
-							  
+	newNode_p -> next_ = current -> next_;// 4: points the new Node to what it's previous node was pointing to
+	current -> next_ = newNode_p;			// 5: current's next_ now points to the newNode
+	newNode_p -> prev_= current;			// 6: theNode's prev_ now points behind it to where	
+	*/						  
 
 	nodeCount_ += nodeCount_ ;			// increase nodeCount
-}
+	}
 
 
 
 
-
+/**
 // argument is a int, Node object for project
 void Node::addNode (Rect new_rect, Node* next_Node){
 
@@ -126,7 +109,7 @@ void Node::addNode (Rect new_rect, Node* next_Node){
 	/// in simple terms
 	t->next = x->next;	//(1) sets t pointer to value that x pointer has
 	x->next = t;        //(2) change x pointer to t node
-	*/
+	
 
 	 {
 	   link* newlink = new link;          // make a new link
@@ -134,23 +117,26 @@ void Node::addNode (Rect new_rect, Node* next_Node){
 	   newlink->next = first;             // it points to next link
 	   first = newlink;                   // now first points to this
 	   }
-	
-	
+
 
 }
+*/
 
 
-// argument is a int, Node object for project
-void Node::deleteNode (Node* the_node){
-	t = x->next;		 //(1) sets t up as the link from x
-	x->next = t->next;   //(2) x link points to whatever t link points to
-	delete t;			 //(3) the memory space for t is deleted 
+
+// argument is a Node object 
+void Node::deleteNode (Node* delNode){
+
+	 delNode-> next_-> prev_ = delNode-> prev_; //(1) sets t up as the link from x
+	 delNode-> prev_-> next_ = delNode-> next_; //(2) x link points to whatever t link points to
+		 delete delNode;						//(3) the memory space for t is deleted	
 
 	nodeCount_ -= nodeCount_;		// decement count of items in list
 }
 
-// argument is a int, Node object for project
-void LinkedList::reverseList (Node* new_Node, Node* next_Node){
+
+// argument is a Node pointer for project
+void Node::reverseList (){
 	
 	/*** FROM BOOK USING STRUCT
 	link reverse(link x)
@@ -183,55 +169,78 @@ void LinkedList::reverseList (Node* new_Node, Node* next_Node){
 	Use a double linked list with next_ and prev_ so that you switch those values: 	1-2-3-4
 	
 	vars: node* sentinal, current_, prev_, next_, tmpNext;	// declare these above in class declaration
+	*/
 	
-	(1) get to end of list 
-			end_ = sentinel -> prev_
-			current_ = end_ (4 node)
+	//(1) get to end of list 
+			Node* end;
+			Node* tmpNext;
 
-	(2) and go backwards
+			end = sentinel_ -> prev_;
+			cur_ = end ;
+
+	//(2) and go backwards
 
 		do {
 
-	(3) 
-	Before  Node		After	Node			What got changed				Temp Node for transition
-	4 prev_ = 3			4 prev_ = 1				4,3 & 1 are same addy,						
-	4 next_ = 1         4 next_ = 3				only the prev_ & next_ changed
+			//(3) 
+			//Before  Node		After	Node			What got changed				Temp Node for transition
+			//4 prev_ = 3			4 prev_ = 1				4,3 & 1 are same addy,						
+			//4 next_ = 1         4 next_ = 3				only the prev_ & next_ changed
 	
-	tmpNext_ = current_ -> next_;				// set tmpNext to the current_ node's next pointer
-	current_ -> next_ = current -> prev_;		// set current node's next_ pointer to 
-										        //  the current_'s previous pointer
-	current_ -> prev_ = current_ -> tmpNext_;   // set current node's previous pointer to 
-										        //  the current_'s next pointer (stored in tmpNext_)
+			tmpNext = cur_ -> next_;				// set tmpNext to the current_ node's next pointer
+			cur_ -> next_ = cur_ -> prev_;		// set current node's next_ pointer to 
+														//  the current_'s previous pointer
+			cur_ -> prev_ = tmpNext;   // set current node's previous pointer to 
+														//  the current_'s next pointer (stored in tmpNext_)
 
-	(4)	//move current back one
-	current_ = current -> prev_;
+			//(4)	move current back one
+			cur_ = cur_ -> next_;				// next_ is now pointing to the current's previous, we just switched it above, so we have to use next_
 
-	// we want the changes to go back through the sentinel and stop at the end / begin node
-	while (current_ != end);
-
-	}
-	*/
+			// we want the changes to go back through the sentinel and stop at the end (now beginning)  node
+			}
+		while (cur_ != end);
+		
 
 }
 
+
 // argument is a int, Node object for project
 void Node::reorderList (Node* new_Node, Node* next_Node){
-	t = x->next;		//(1) sets t up as the link from x
+
+	t = x->next;		 //(1) sets t up as the link from x
 	x->next = t->next;   //(2) x link points to whatever t link points to
 
 }
 
-// argument is a int, Node object for project
-void Node::traverseList (Node* new_Node, Node* next_Node){
+
+// start at the first item and iterate thru list
+void Node::traverseList (){
 		
-	for (link t = x; t != 0; t = t->next) 
-			displayNode(t->item);			// 
+	cur_ = sentinel_ -> next_;	// set cursor to first item, which is after the sentinel
+	
+	while (cur_ != sentinel_){	// move forward through the list
+
+			// do something here, send to displayNode method?	
+	}
+		cur_ = cur_ -> next_ ;	// update the cursor to the next node
+
 }
 
 
-// argument is a int, Node object for project
-void Node::displayList (int num, node* t){
-			// put the display here ? cout<<
 
+
+// argument is a int, Node object for project
+void Node::displayNode (Node* t){
+			
+	// put the display here ? cout<<
+	// maybe call a draw() method
+
+}
+
+
+// return an int with the number of nodes, including the sentinel
+int itemCount (){
+
+	return nodeCount_ + 1 ;
 
 }

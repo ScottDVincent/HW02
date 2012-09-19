@@ -17,7 +17,7 @@
 #include "cinder/gl/gl.h"
 #include "cinder/app/App.h"
 #include "cinder/Text.h"
-
+#include "cinder/Rand.h"
 #include "Rect.h"   //class
 #include "List.h"   //
 
@@ -36,10 +36,10 @@ class HW02App : public AppBasic {
 	void mouseDown( MouseEvent event );	
 	void keyDown( KeyEvent event );
 	void prepareSettings(Settings* settings);
-	
 	void setup();
 	void update();
 	void draw();
+
 
 	// set the colsole function to on
 	bool cons_On;
@@ -56,6 +56,7 @@ class HW02App : public AppBasic {
 		static const int AppHeight=600;
 		static const int TextureSize=1024; //Must be the next power of 2 bigger or equal to app dimensions
 	
+		Rect aRect_;
 };
 
 
@@ -92,7 +93,7 @@ void HW02App::setup()
 	Rect::rect(int position, int startX, int startY, int width, int height, color() );
 	Rect::rect(int position, startX+5, startY+5, width-20, height-20, (200,100,50) );
 
-	Rect::rect(int position, 100, 50, 100, 100, (200,100,50) );
+	Node::insertAfter (Rect::rect(int position, 100, 50, 100, 100, (200,100,50), node) );
 	Rect::rect(int position, 105, 55, 70, 70, (100,200,50) );
 	Rect::rect(int position, 110, 60, 40, 40, (20,10,150) );
 	Rect::rect(int position, 115, 65, 20, 20, (150,150,150) );
@@ -121,6 +122,8 @@ void HW02App::mouseDown( MouseEvent event ) {
 	  if( event.isLeft() ) {
 		 // call something list
     }
+
+	  new rect(event.getX(), event.getY(), 20.0f); // pass some mouse click info here
 }
 
 
@@ -173,13 +176,14 @@ void HW02App::draw()
 	gl::clear( Color( 0, 0, 0 ) ); 
 
 
+
 	// for drawing text on screen
 	//http://libcinder.org/docs/v0.8.4/_text_8h.html
 	//http://libcinder.org/docs/v0.8.4/classcinder_1_1_text_layout.html
 	//http://libcinder.org/docs/v0.8.4/classcinder_1_1_text_box.html
 
-
-
+	aRect_ -> draw();
+	
 }
 
 CINDER_APP_BASIC( HW02App, RendererGl )

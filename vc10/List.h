@@ -20,6 +20,7 @@ http://www.martinbroadhurst.com/articles/circular-linked-list.html
 
  */ 
 
+/**
 	// our linked list data structure, but really we are using a class so we shouldn't need this
 		struct node {
 			//Item item; 	   		// place for the data
@@ -29,12 +30,11 @@ http://www.martinbroadhurst.com/articles/circular-linked-list.html
 		
 
 		    /// from book -- declares what a node is
-			/**
 			node(LinkedList x, node* t)	
 			{
 			   rect = x; next = t; // rect is x and next node pointer is t
 			};
-			*/
+			
 		
 	}  *root ;  // end struct
 
@@ -47,22 +47,19 @@ http://www.martinbroadhurst.com/articles/circular-linked-list.html
 		// have to give the pointer a valid addy before using it
 		link t = new node(x, t);
 
+*/
 
 ////////////////////////////////////////
 
 #include "Rect.h";
 
-class LinkedList{
+class Node{
 public:		
 
 	// constructor
-
-	LinkedList();	// no argument constructor
-					// this will create the list structure and the node class (in List.cpp) will 
-					// complete Node operations on the list
-	
-	// I"m not sure this should be defined here
-	LinkedList(Rect* rect, Node* sentinal);
+	Node();
+	//Node(Node* sentinal);
+	Node(Rect* rect, Node* node);
 
 			
 	/**
@@ -79,17 +76,19 @@ public:
 	int length();
 	bool empty(); 
 	bool atEnd();
+	bool isEmpty;
 
-	// external node pointers to the list
-	Node* sentinal_;
-	Node* current_;
+
+	// External node pointers to the list
+	
+	Node* sentinel_;
+	Node* cur_;
 	Node* next_;
-	Node* previous_;
-	Node* child_;
+	Node* prev_;
+	Node* children_;
 
-	Rect data_;		// a Rect object to hold data	
+	Rect* rect_;		// a Rect object to hold data	
 		
-	int nodeCount_ ;		// number of nodes in the list
 
 
 	/**
@@ -108,63 +107,62 @@ public:
 
 
 	/**
-	 @name: _insert_after
+	 @name: insertAfter
 	 @param: Rect  : the rectangle object 
 	 @param: Node* : a node pointer to where the item is being placed in the list
-	
+
+	 This is my "add a new" node and it creates a new node, with rect object and next_ and prev_ pointers
+
+		 ? should I take a the pointer in by reference (&) or by value (*)?  == by (*) for pointers
+
 	*/
-	void insertAfter (Rect new_rect, Node* where);
+	void insertAfter (Rect new_rect, Node* current);
 
 
 	
 	/**
-	* @param Rect new_rect: The addy of addRect object
-		
-	? do I need to pass in the Rect* next_rect ?
-
-	 ? should I take a the pointer in by reference (&) or by value (*)?
-	 == by (*) for pointers
+	* void deleteNode
+	* @param Node* delNode: Pointer to addy of the node to be deleted
 	*/
-	void addNode (Rect rect, Node* next_Node);
-	
+	void deleteNode (Node* delNode);
 
 
 	/**
-	*
-	* @param Node* the_node: Pointer to addy of the node
-	*/
-	void deleteNode (Node* the_node);
+	* void reverseList
+	* reverses the list items
+	* 	*/
+	void reverseList ();
 
 	/**
+	* void reorderList
 	* @param Rect* new_rect: Pointer to addy of new_rect object
-	* @param Rect* next_rect: Pointer to addy of the link next_rect
-	*/
-	void reverseList (Node* new_rect, Node* next_rect);
+	* @param Node* 
 
-
-	/**
-	* @param Rect* new_rect: Pointer to addy of new_rect object
-	* @param Rect* next_rect: Pointer to addy of the link next_rect
+	? reordering based on what parameter?
 	*/
 	void reorderList (Node* new_rect, Node* next_rect);
 
+
+
 	/**
-	* @param Rect* new_rect: Pointer to addy of new_rect object
-	* @param Rect* next_rect: Pointer to addy of the link next_rect
+	* void traverseList
+	* traverses the list starting from the beginning
+	* send to display
 	*/
-	void traverseList (Node* new_rect, Node* next_rect);
+	void traverseList ();
 	
 
 	/**
-	* @param int num: 
+	* void diplayList
 	* @param node* t: 
+	* diplays the list starting from the node argument
 	*/
-	void displayList (int num, node* t);
-
+	void displayNode (Node* t);
+	
 
 	/**
-	* @param int num: 
-	* @param node* t: 
+	* int CountItems
+	* returns an int of number of nodes 
 	*/
 	int CountItems ();
 

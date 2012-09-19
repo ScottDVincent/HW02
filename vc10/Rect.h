@@ -16,10 +16,8 @@
  */ 
 
 
-/**
-// Rectangle class
-*/
-
+#include "cinder/app/AppBasic.h"
+#include "cinder/Rand.h"
 
 class Rect{
 public:		
@@ -27,8 +25,9 @@ public:
 	///Constructors
 
 	Rect ();	// no argument constructor
-	Rect(float x1, float y1, float x2, float y2);  //cinder code
+	Rect (float x1, float y1, float x2, float y2);  //cinder code
 
+	
 	// old code: Rect (uint8_t* pixels, int x_width, int y_height, int x_origin, int y_origin, Color8u c);  // argument constructor
 
 
@@ -44,8 +43,15 @@ public:
 	float x2_;
 	float y2_;
 
+	uint8_t* color;
+	int rand_red_;
+	int rand_green_;
+	int rand_blue_;
+
 	///Methods
 
+	void rect();		
+	
 	/**
 	drawRect
 	@param: int x_width
