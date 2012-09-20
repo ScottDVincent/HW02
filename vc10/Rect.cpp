@@ -20,17 +20,32 @@ using namespace std;		// standard library
 
 
 	// constructor
-	Rect::Rect (float x1, float y1, float x2, float y2)
+
+	Rect::Rect();
+
+	Rect::Rect (float x1, float y1, float x2, float y2, Color8u(0,0,0) )
    {	x1_ = x1;
 		y1_ = y1;
 		x2_ = x2;
 		y2_ = y2;
+
+		color = new uint8_t[3];
+		//question is how to get the colors from the function call into the array
+		color[0] = 255;
+		color[1] = 255;
+		color[2] = 255;
 	}
+
+	void drawRectangle(int xA, int yA, int xB, int yB, Color8u* line, Color8u* fill,uint8_t* dataArr);
 
 void Rect::drawRect(){
 
 //using cinder: http://libcinder.org/docs/v0.8.2/hello_cinder_chapter3.html
-gl::drawSolidRect(Rectf (x1_, y1_, x2_, y2_) );
+// set color
+gl::color(color[0], color[1], color[2]);
+// draw rectangle
+gl::drawSolidRect(Rectf (x1_, y1_, x2_, y2_),5.0f);
+
 
 }
 

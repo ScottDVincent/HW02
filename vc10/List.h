@@ -59,7 +59,7 @@ public:
 	// constructor
 	Node();
 	//Node(Node* sentinal);
-	Node(Rect* rect, Node* node);
+	Node(Rect* data, Node* node);
 
 			
 	/**
@@ -73,21 +73,20 @@ public:
 	*/
 
 	// list specific
-	int length();
-	bool empty(); 
+	int nodeCount_;
 	bool atEnd();
-	bool isEmpty;
-
+	bool isEmpty();
+	
 
 	// External node pointers to the list
-	
 	Node* sentinel_;
 	Node* cur_;
 	Node* next_;
 	Node* prev_;
 	Node* children_;
 
-	Rect* rect_;		// a Rect object to hold data	
+	// a Rect object to hold data	
+	Rect* data_;		
 		
 
 
@@ -112,8 +111,7 @@ public:
 	 @param: Node* : a node pointer to where the item is being placed in the list
 
 	 This is my "add a new" node and it creates a new node, with rect object and next_ and prev_ pointers
-
-		 ? should I take a the pointer in by reference (&) or by value (*)?  == by (*) for pointers
+	 ? should I take a the pointer in by reference (&) or by value (*)?  == by (*) for pointers
 
 	*/
 	void insertAfter (Rect new_rect, Node* current);
@@ -129,19 +127,19 @@ public:
 
 	/**
 	* void reverseList
-	* reverses the list items
+	* reverses the list items from the end
 	* 	*/
 	void reverseList ();
 
+
 	/**
 	* void reorderList
-	* @param Rect* new_rect: Pointer to addy of new_rect object
-	* @param Node* 
-
-	? reordering based on what parameter?
+	* @param Node* fromNode: 
+	* @param Node* toNode:
+	* Moves the fromNode to after the toNode
 	*/
-	void reorderList (Node* new_rect, Node* next_rect);
-
+	void reorderList (Node* fromNode, Node* toNode);
+		
 
 
 	/**
@@ -154,10 +152,10 @@ public:
 
 	/**
 	* void diplayList
-	* @param node* t: 
-	* diplays the list starting from the node argument
+	* @param node* inNode 
+	* calls the drawRect function 
 	*/
-	void displayNode (Node* t);
+	void displayNode (Node* inNode);
 	
 
 	/**
@@ -165,9 +163,6 @@ public:
 	* returns an int of number of nodes 
 	*/
 	int CountItems ();
-
-
-	
 
 
 };     // end declarations and Node.h file

@@ -11,12 +11,13 @@
  * CC BY 3.0 license (http://creativecommons.org/licenses/by/3.0/),
  * which means you are free to use, share, and remix it as long as you
  * give attribution. Commercial uses are allowed.
-
  *
  */ 
 
 
 #include "cinder/app/AppBasic.h"
+#include "cinder/gl/gl.h"
+#include "cinder/app/App.h"
 #include "cinder/Rand.h"
 
 class Rect{
@@ -25,31 +26,28 @@ public:
 	///Constructors
 
 	Rect ();	// no argument constructor
-	Rect (float x1, float y1, float x2, float y2);  //cinder code
-
+	Rect (float x1, float y1, float x2, float y2, Color8u );  //cinder construct
 	
 	// old code: Rect (uint8_t* pixels, int x_width, int y_height, int x_origin, int y_origin, Color8u c);  // argument constructor
 
 
 	/// Member Variables
-	//pointers to nodes, perhaps use here or else have these pointers in the Node class
-	Rect* next_;
-	Rect* prev_;
+	// pointers to nodes, perhaps use here or else have these pointers in the Node class
+	// ? I'm not sure I need Rect next & prev pointers ?
+	Rect* rectNext_;
+	Rect* rectPrev_;
 
 	//uint8_t* pixels; int x_width; int y_height;	int x_origin; int y_origin;	Color8u c;
 
-	float x1_;
-	float y1_;
-	float x2_;
-	float y2_;
-
-	uint8_t* color;
+	// for rect shape
+	float x1_, y1_, x2_, y2_;	
+	Color8u color;
 	int rand_red_;
 	int rand_green_;
 	int rand_blue_;
-
-	///Methods
-
+	uint8_t* color;
+	
+	/// Member Methods
 	void rect();		
 	
 	/**
@@ -58,11 +56,12 @@ public:
 	@param: int y_height
 	@param: int x_origin
 	@param: int y_origin
-	@param: Color8u c
+	@param: Color8u (c.red, c.blue, c.green)
 	*/
 
 	//void drawRect(uint8_t* pixels, int x_width, int y_height, int x_origin, int y_origin, Color8u c);
 	void drawRect();
+
 
 };     // end declarations and Rect.h file
 

@@ -22,40 +22,39 @@ using namespace ci;
 using namespace ci::app;
 using namespace std;		// standard library
 
-int nodeCount_ = 0;
 
 
 
 // STEP 1
-
 	/**
 	? Have to create a list with one empty node in it.
-	something like...
-	LinkedList::LinkedList (Node* sentinal)
+	--> do that in HW02App setup()
 	*/
 
 	//Constructor for Node
 	Node::Node(){
 		next_ = prev_ = this;		// create self-referential sentinel node; the assignments go in reverse order
-		children_ = NULL;			// no children i nthis node, yet
-		rect_ = new Rect();			//
+		children_ = NULL;			// no children in this node, yet
+		data_ = new Rect();			// data item will be a Rect object
 	}
 
 // create the inital sentinal node.
 Node* sentinel_ = new Node;		
 
+// 
+int nodeCount_ = 0; 
 
+// insertAfter method but perhaps it should be insertBefore since we want to insert at the end
 void insertAfter (Rect* new_rect, Node* cur) {
 	
 	/**
-	* in this example "where" is the node we are placing a new node after
+	* in this example "cur" is the node we are placing a new node after
 	*/
 	Node* tmpPrev;						// ? should this be a Node* type ?
-	Node* newNode_p = new Node;			// allocating space for a new Node pointer
 	
-
 	// create new node	
-	newNode_p -> rect_ =  new_rect;	     // 1: the data will be the rectangle info we are sending in
+	Node* newNode_p = new Node;			// allocating space for a new Node pointer
+	newNode_p -> data_ =  new_rect;	    // 1: the data will be the rectangle info we are sending in
 	
 	
 	// DO THE NODE SWITCHING
@@ -85,7 +84,7 @@ void insertAfter (Rect* new_rect, Node* cur) {
 											// bounds checking:	// ?? will I run into a situation where I will ever dereference a NULL next pointer? 	
 											// == I don't think so. All nodes should always have a valid pointer				
 	
-	newNode_p -> next_ = current -> next_;// 4: points the new Node to what it's previous node was pointing to
+	newNode_p -> next_ = current -> next_;  // 4: points the new Node to what it's previous node was pointing to
 	current -> next_ = newNode_p;			// 5: current's next_ now points to the newNode
 	newNode_p -> prev_= current;			// 6: theNode's prev_ now points behind it to where	
 	*/						  
@@ -109,7 +108,6 @@ void Node::addNode (Rect new_rect, Node* next_Node){
 	/// in simple terms
 	t->next = x->next;	//(1) sets t pointer to value that x pointer has
 	x->next = t;        //(2) change x pointer to t node
-	
 
 	 {
 	   link* newlink = new link;          // make a new link
@@ -129,7 +127,7 @@ void Node::deleteNode (Node* delNode){
 
 	 delNode-> next_-> prev_ = delNode-> prev_; //(1) sets t up as the link from x
 	 delNode-> prev_-> next_ = delNode-> next_; //(2) x link points to whatever t link points to
-		 delete delNode;						//(3) the memory space for t is deleted	
+	 delete delNode;						//(3) the memory space for t is deleted	
 
 	nodeCount_ -= nodeCount_;		// decement count of items in list
 }
@@ -204,25 +202,32 @@ void Node::reverseList (){
 }
 
 
-// argument is a int, Node object for project
-void Node::reorderList (Node* new_Node, Node* next_Node){
 
-	t = x->next;		 //(1) sets t up as the link from x
-	x->next = t->next;   //(2) x link points to whatever t link points to
+void Node::reorderList (Node* fromNode, Node* toNode){
+
+	fromNode->next_->prev_ = fromNode->prev_;		// set cur next 's prev to the one before cur
+	fromNode->prev_->next_ = fromNode->next_;		// set cur prev to cur's next
+														// fromNode is now "free"	
+	fromNode->next_ = toNode->next_;				// set cur's next to toNode's next
+	fromNode->prev_ = toNode;						// set cur prev_ to the toNode (behind it)
+	toNode->next_ = fromNode;						// set toNode next to cur
+	fromNode->next_->prev_ = fromNode;				// set new cur's next's prev back to cur
+
 
 }
 
 
 // start at the first item and iterate thru list
 void Node::traverseList (){
-		
-	cur_ = sentinel_ -> next_;	// set cursor to first item, which is after the sentinel
+	
+	// ? can I use the same cur_ I have declared above ?
+	cur_ = sentinel_ -> next_;	// set cur to first item, which is after the sentinel
 	
 	while (cur_ != sentinel_){	// move forward through the list
 
-			// do something here, send to displayNode method?	
+			displayNode (cur_);	
 	}
-		cur_ = cur_ -> next_ ;	// update the cursor to the next node
+		cur_ = cur_ -> next_ ;	// update the cur to the next node
 
 }
 
@@ -230,10 +235,11 @@ void Node::traverseList (){
 
 
 // argument is a int, Node object for project
-void Node::displayNode (Node* t){
-			
-	// put the display here ? cout<<
-	// maybe call a draw() method
+void Node::displayNode (Node* inNode){		
+	
+           drawRect(inNode->X1, inNode->Y1, inNode->X2, inNode -> Y2, inNode ->Color(0,0,0) );
+        
+    } 
 
 }
 
