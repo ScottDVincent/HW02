@@ -1,0 +1,87 @@
+9/15/12
+
+Hi Dr. Brinkman,
+
+I have a couple of questions about our project. I hope you're good and caffinated.
+
+(1) As I started to draw some diagrams and work on my psuedo-code for the list I started to think that perhaps a circular, doubly-linked list (it seems there could be such a thing) might be a way to structure the list. Looking at your code and thinking how to best do the reverse process using some diagraming it seems that a C&D linked list would allow me to reverse the list by switching the next and previous address pointers. My sentinal would be the first, empty node which always points to itself. It's next_ would be the head node and it's previous would be tail node. With a sentinal I would always know where the head & tail were.
+
+If I wanted to REVERSE the order I could so something like this:
+
+/**(3) : my best option: seems practical  and gives me the bonus of using a circular list)
+
+	//Use a double linked list with next_ and prev_ so that you switch those values: 	1-2-3-4
+	
+	//vars: node* sentinal, current_, prev_, next_, tmpNext;	
+			// declare these in class declaration header file
+	
+	//(1) get to end of list 
+			end_ = sentinal -> prev_;
+			current_ = end_;          //(4 node)
+
+	//(2) and go backwards
+
+		do {
+
+	//(3) 
+	//Before  Node		After	Node			What got changed				Temp Node for transition
+	//4 prev_ = 3		4 prev_ = 1				4,3 & 1 are same addy,						
+	//4 next_ = 1       4 next_ = 3				only the prev_ & next_ changed
+	
+	tmpNext_ = current_ -> next_;				// set tmpNext to the current_ node's next pointer
+	current_ -> next_ = current -> prev_;		// set current node's next_ pointer to 
+										        // the current_'s previous pointer
+	current_ -> prev_ = current_ -> tmpNext_;   // set current node's previous pointer to 
+										        // the current_'s next pointer (stored in tmpNext_)
+
+	//(4)	move current back one; i.e. move from 4 to 3
+	current_ = current -> prev_;
+	
+*/	
+
+
+(2) Now, if I want to ADD a node I've worked out this next algorithm out. With a circular double-link the part I'm stuck on is #2 in my code. In our example from Thursday we added a node and that little bit of code worked out for a linear list but for what I'm thinking of I need to double-back a previous pointer. 
+
+For example, if the list is S-1-2-3-4 and I want to add something between 3-4 to have 3-new-5 with a doubly-linked list my #5 node will be pointing back to #3 and I need it to point to 'new'.
+I had an idea that it might be possible to do a little fiddling with pointer values, address values and some dereferncing. I guess the easiest way to explain it is in the code below.
+
+void insertAfter (Rect new_rect, Node* where) {
+
+	/**
+	* in this example "where" is the node we are placing a new node after
+	*/
+	Node* tmpPrev_;						// ? should this be a Node* type ?
+	Node* theNode_p = new Node;			// allocating space for a new Node pointer
+
+
+	// DO THE NODE SWITCHING
+	newNode_p -> new_rect =  new Rect;	// 1: the data will be a new rectangle object
+
+	tmpPrev_ = &where -> prev_;			// 2: tmpPrev holds the addy of "where"'s next_'s prev_ : 
+										// ? did I place the & properly ?
+										// pointer var tmpPrev_ now holds the memory address of where -> prev_
+										// see #3
+
+		// #3: I want the value of tmpPrev to be changed to the location of theNode	
+		// ? how to code... (see c++ in 15; p433-35 for concept)
+		// ? where's next_'s prev_ = theNode_p   // 6: problem is that "where"'s next_'s "previous_" is still poiningt at "where" and NOT theNode
+	 *tmpPrev_ = &theNode_p;   //  the dereferenced value of tmpPrev_ = the address of theNode_p
+				
+			// bounds checking:	// ?? will I run into a situation where I will ever dereference a NULL next pointer? 	
+								// == I don't think so. All nodes should always have a valid pointer				
+	
+	newNode_p -> next_ = where -> next_;// 4: points the new Node to what it's previous node was pointing to
+	where -> next_ = newNode_p;			// 5: where's next_ now points to the newNode
+	newNode_p -> prev_= where;			// 6: theNode's prev_ now points behind it to where	
+							  
+
+	nodeCount_ += nodeCount_ ;			// increase nodeCount
+}
+
+
+(3) I'm thinking about how to structure my Linked List object. I'm thinking that in my List.h file I will have a LinkedList class where I can construct the primary List object. Then in my List.cpp file I will have a Node class. That way I can have each node be an object within the primary list.
+It seems to me that there would be a way to also make "children" list objects this way and I could connect them to a node in the parent class. So, am I on the right track with this line of thinking?
+
+
+Thanks for your help,
+Scott

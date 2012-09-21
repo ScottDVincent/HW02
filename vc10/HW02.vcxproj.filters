@@ -18,10 +18,10 @@
     <ClCompile Include="..\src\HW02App.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Rect.cpp">
+    <ClCompile Include="..\src\List.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="List.cpp">
+    <ClCompile Include="..\src\Rect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -29,11 +29,11 @@
     <ClInclude Include="..\include\Resources.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Rect.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="..\include\List.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="List.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="..\include\Rect.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

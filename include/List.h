@@ -74,12 +74,10 @@ public:
 
 	// list specific
 	int nodeCount_;
-	bool atEnd();
-	bool isEmpty();
+
 	
 
 	// External node pointers to the list
-	Node* sentinel_;
 	Node* cur_;
 	Node* next_;
 	Node* prev_;
@@ -114,8 +112,7 @@ public:
 	 ? should I take a the pointer in by reference (&) or by value (*)?  == by (*) for pointers
 
 	*/
-	void insertAfter (Rect new_rect, Node* current);
-
+	void insertAfter (Rect* new_rect, Node* current);
 
 	
 	/**
@@ -129,7 +126,7 @@ public:
 	* void reverseList
 	* reverses the list items from the end
 	* 	*/
-	void reverseList ();
+	void reverseList (Node* sentinal);
 
 
 	/**
@@ -144,10 +141,10 @@ public:
 
 	/**
 	* void traverseList
-	* traverses the list starting from the beginning
+	* traverses the list starting from the sentinel node
 	* send to display
 	*/
-	void traverseList ();
+	void traverseList (Node* sentinel);
 	
 
 	/**
@@ -159,10 +156,33 @@ public:
 	
 
 	/**
-	* int CountItems
-	* returns an int of number of nodes 
+	* void diplayList
+	* @param node* inNode 
+	* adds a child node at the node passed in
 	*/
-	int CountItems ();
+	void addChild(int inNode);
+
+
+	/**
+	* int nodeCount
+	* return an int with the number of nodes, including the sentinel 
+	*/
+	int nodeCount (Node* sentinel);
+
+
+	/**
+	* bool isEmpty();
+	* returns true if at end of list
+	*/
+	bool atEnd();
+
+
+	/**
+	* bool isEmpty();
+	* returns true if list is empty. 
+	* really shouldn't need this as I'm planning to go with a never-empty list
+	*/
+	bool isEmpty();
 
 
 };     // end declarations and Node.h file

@@ -41,11 +41,11 @@ public:
 
 	// for rect shape
 	float x1_, y1_, x2_, y2_;	
-	Color8u color;
+	Color8u colorRect;
 	int rand_red_;
 	int rand_green_;
 	int rand_blue_;
-	uint8_t* color;
+	
 	
 	/// Member Methods
 	void rect();		

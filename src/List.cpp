@@ -34,15 +34,12 @@ using namespace std;		// standard library
 	//Constructor for Node
 	Node::Node(){
 		next_ = prev_ = this;		// create self-referential sentinel node; the assignments go in reverse order
-		children_ = NULL;			// no children in this node, yet
+		//children_ = NULL;			// no children in this node, yet
 		data_ = new Rect();			// data item will be a Rect object
 	}
 
-// create the inital sentinal node.
-Node* sentinel_ = new Node;		
 
-// 
-int nodeCount_ = 0; 
+
 
 // insertAfter method but perhaps it should be insertBefore since we want to insert at the end
 void insertAfter (Rect* new_rect, Node* cur) {
@@ -127,14 +124,14 @@ void Node::deleteNode (Node* delNode){
 
 	 delNode-> next_-> prev_ = delNode-> prev_; //(1) sets t up as the link from x
 	 delNode-> prev_-> next_ = delNode-> next_; //(2) x link points to whatever t link points to
-	 delete delNode;						//(3) the memory space for t is deleted	
+	 delete delNode;						    //(3) the memory space for t is deleted	
 
 	nodeCount_ -= nodeCount_;		// decement count of items in list
 }
 
 
 // argument is a Node pointer for project
-void Node::reverseList (){
+void Node::reverseList (Node* sentinel){
 	
 	/*** FROM BOOK USING STRUCT
 	link reverse(link x)
@@ -173,7 +170,7 @@ void Node::reverseList (){
 			Node* end;
 			Node* tmpNext;
 
-			end = sentinel_ -> prev_;
+			end = sentinel -> prev_;
 			cur_ = end ;
 
 	//(2) and go backwards
@@ -218,12 +215,12 @@ void Node::reorderList (Node* fromNode, Node* toNode){
 
 
 // start at the first item and iterate thru list
-void Node::traverseList (){
+void Node::traverseList (Node* sentinel){
 	
 	// ? can I use the same cur_ I have declared above ?
-	cur_ = sentinel_ -> next_;	// set cur to first item, which is after the sentinel
+	cur_ = sentinel -> next_;	// set cur to first item, which is after the sentinel
 	
-	while (cur_ != sentinel_){	// move forward through the list
+	while (cur_ != sentinel){	// move forward through the list
 
 			displayNode (cur_);	
 	}
@@ -238,15 +235,53 @@ void Node::traverseList (){
 void Node::displayNode (Node* inNode){		
 	
            drawRect(inNode->X1, inNode->Y1, inNode->X2, inNode -> Y2, inNode ->Color(0,0,0) );
-        
-    } 
+
+
+
+		   /**
+		   	bool areOverlapping = isInside(mp.x, mp.y);
+
+				if(areOverlapping){
+					//change color
+				gl::color(Color8u(255,127,00));
+				} else {
+				gl::color(Color8u(255,0,0));
+				}
+				*/
+
+
+
+     
+}
+
+
+// adds a child node at the node passed in
+void Node::addChild(int inNode){
+
+	/** Dr Brinkman's code
+		Node* newNode = new Node(depth,position_,Vec2f(0.0,0.0),0.45*radius_);
+
+			if(children_ != NULL){
+				insertAfter(newNode, children_);
+				} else {
+				children_ = newNode;
+				}
+			}
+		*/
 
 }
 
 
 // return an int with the number of nodes, including the sentinel
-int itemCount (){
+int nodeCount (Node* sentinel){
 
-	return nodeCount_ + 1 ;
+		Node* cur = sentinel -> next_;
+		int theCount = 1; // includes the sentinel
+
+		while(cur != sentinel) {
+			theCount++;
+			cur = cur->next_;
+			}
+		return theCount;
 
 }

@@ -48,22 +48,31 @@ class HW02App : public AppBasic {
 
   private:
 
+	  // define the List
+	  Node* theList_;
+
+	  // define sentinel
+	  Node* sentinel_;
+
 		//Width and height of the screen
 		static const int AppWidth=800;
 		static const int AppHeight=600;
 		static const int TextureSize=1024; //Must be the next power of 2 bigger or equal to app dimensions
 		Surface* mySurface_;
 		uint8_t* dataArr;
-		BGCOLOR = new Color8u (255,255,255);
+		//bgColor = new Color8u (255,255,255);
 		
 		
 		// declare the menu functions
 		bool menuOn_;
-		Surface* background_;
 		Surface* menu_;
+		Surface* background_;
+
+		
 
 		//maybe I'll need this
-		Rect tempRect_;
+		Rect* tempRect_;
+
 	
 };  // the above should really go in a .h file
 
@@ -89,46 +98,55 @@ void HW02App::setup()
 {
 	// prepare the surface
 	mySurface_ = new Surface(TextureSize,TextureSize,false);
-
+	dataArr = mySurface_->getData();
+	
 	// set the menu image function to on
 	menuOn_ = true;
-	Surface menu_(loadImage( loadResource(RES_MENU) ));
-	background_ = new Surface(TextureSize, TextureSize, true);
+	
+	Surface menu (loadImage( loadResource(RES_MENU) ) );
+	menu_ = new Surface(TextureSize, TextureSize, true);
+	//background_ = new Surface(TextureSize, TextureSize, true);
 
+	
 	/**
-	First:	construct an empty List
-	*/
+	First:	construct the sentinel node
 	//Establishes the inital sentinal node for our circular list. 
+	*/
 	sentinel_ = new Node;
 	sentinel_ = next_ = prev_ = this;
 	sentinel_->data_ = NULL;
 
-	//prepare surface
-	mySurface = new Surface(appWidth, appHeight, false);
-	dataArr = mySurface->getData();
-	
-	
     
 	/**
 	Second:
 	/// make node call 4x for rectangles
-	Rect::rect(int position, int startX, int startY, int width, int height, color() );
+
+	this is the code from cinder web
+		Rectf rect( mLoc.x, mLoc.y, mLoc.x + mRadius, mLoc.y + mRadius );
+		gl::drawSolidRect( rect );
+	?? can I pass in a color?? 
 	
-	Rect::rect(int position, startX+5, startY+5, width-20, height-20, (200,100,50) );
-	Rect::rect(int position, 105, 55, 70, 70, (100,200,50) );
-	Rect::rect(int position, 110, 60, 40, 40, (20,10,150) );
-	Rect::rect(int position, 115, 65, 20, 20, (150,150,150) );
-
-	or
-
+	http://libcinder.org/docs/v0.8.4/classcinder_1_1_rect_t.html#adf917a76e5a25087be8094989d4e352d
+	Rect::rect(int startX, int startY, int endX, int endY, color() );
+	Rect::rect(100, 100, 200, 200, (100,200,50) );
+	Rect::rect(120, 120, 220, 220, (20,10,150) );
+	Rect::rect(140, 140, 240, 240, (150,150,150) );
+	
+	... or ...
+	Rect::rect(int position, startX+20, startY+20, endX+20, endY+20, (200,100,50) );
+	
+	...	or ...
 	Node::insertAfter (Rect::rect(int position, 100, 50, 100, 100, (200,100,50), node) );
 
 
 	Third:
 	?? how do we add this rect node to the link list
-	?  addNode();
+	?  insertAfter();
 	*/
-	// draw inital shapes
+	
+	theList_ = new Node(rect1, sentinel_);
+
+	theList_ ;
 	
 	drawRect(10,10,50,50,new Color8u(0,0,0), new Color8u(255,0,0), dataArr);
     insertNode(sentinel, 600, 190, 100);
@@ -221,8 +239,12 @@ void HW02App::draw()
 		gl::draw(*background_);
 
 		// draw the menu if it's value is true
+		/**
+		if( myImage )
+			gl::draw( myImage, getWindowBounds() );
+		*/
 		if(menuOn_){
-		gl::draw(*menu_);
+		gl::draw(*menu_ , getWindowBounds());
 		}
 
 

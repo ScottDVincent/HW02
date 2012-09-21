@@ -36,7 +36,7 @@ using namespace std;		// standard library
 		color[2] = 255;
 	}
 
-	void drawRectangle(int xA, int yA, int xB, int yB, Color8u* line, Color8u* fill,uint8_t* dataArr);
+void drawRectangle(int xA, int yA, int xB, int yB, Color8u* line, Color8u* fill);
 
 void Rect::drawRect(){
 
@@ -44,7 +44,7 @@ void Rect::drawRect(){
 // set color
 gl::color(color[0], color[1], color[2]);
 // draw rectangle
-gl::drawSolidRect(Rectf (x1_, y1_, x2_, y2_),5.0f);
+gl::drawSolidRect(Rectf (x1_, y1_, x2_, y2_) );
 
 
 }
