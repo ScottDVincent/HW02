@@ -25,26 +25,29 @@ public:
 
 	///Constructors
 
-	Rect ();	// no argument constructor
-	Rect (float x1, float y1, float x2, float y2, Color8u );  //cinder construct
+	Rect ();														// no argument constructor
+	Rect (float x1, float y1, float x2, float y2, Color8u color );  //cinder construct
 	
 	// old code: Rect (uint8_t* pixels, int x_width, int y_height, int x_origin, int y_origin, Color8u c);  // argument constructor
 
 
 	/// Member Variables
 	// pointers to nodes, perhaps use here or else have these pointers in the Node class
-	// ? I'm not sure I need Rect next & prev pointers ?
+	// ? I'm not sure I need Rect next & prev pointers ? as I will handle this in the node class
 	Rect* rectNext_;
 	Rect* rectPrev_;
+
 
 	//uint8_t* pixels; int x_width; int y_height;	int x_origin; int y_origin;	Color8u c;
 
 	// for rect shape
-	float x1_, y1_, x2_, y2_;	
+	float x1_, y1_, x2_, y2_;
+	uint8_t* inColor; 
 	Color8u colorRect;
 	int rand_red_;
 	int rand_green_;
 	int rand_blue_;
+	
 	
 	
 	/// Member Methods

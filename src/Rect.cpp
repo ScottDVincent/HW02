@@ -18,31 +18,36 @@
 using namespace ci;
 using namespace std;		// standard library
 
+		
 
 	// constructor
 
 	Rect::Rect();
 
-	Rect::Rect (float x1, float y1, float x2, float y2, Color8u(0,0,0) )
-   {	x1_ = x1;
+	Rect::Rect (float x1, float y1, float x2, float y2, Color8u color ) {	
+		x1_ = x1;
 		y1_ = y1;
 		x2_ = x2;
 		y2_ = y2;
 
-		color = new uint8_t[3];
+
+		// put the argument color into an array to use later
+		inColor = new uint8_t[3];
 		//question is how to get the colors from the function call into the array
-		color[0] = 255;
-		color[1] = 255;
-		color[2] = 255;
+		inColor[0] = color.r;
+		inColor[1] = color.g;
+		inColor[2] = color.b;
 	}
 
-void drawRectangle(int xA, int yA, int xB, int yB, Color8u* line, Color8u* fill);
+//void drawRectangle(int xA, int yA, int xB, int yB, Color8u* fill);
+
+
 
 void Rect::drawRect(){
 
 //using cinder: http://libcinder.org/docs/v0.8.2/hello_cinder_chapter3.html
 // set color
-gl::color(color[0], color[1], color[2]);
+gl::color(inColor[0], inColor[1], inColor[2]);
 // draw rectangle
 gl::drawSolidRect(Rectf (x1_, y1_, x2_, y2_) );
 

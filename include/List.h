@@ -58,7 +58,6 @@ public:
 
 	// constructor
 	Node();
-	//Node(Node* sentinal);
 	Node(Rect* data, Node* node);
 
 			
@@ -72,16 +71,13 @@ public:
 		typedef link Node;
 	*/
 
-	// list specific
-	int nodeCount_;
-
 	
 
 	// External node pointers to the list
-	Node* cur_;
+	//Node* cur_;
 	Node* next_;
 	Node* prev_;
-	Node* children_;
+	//Node* children_;
 
 	// a Rect object to hold data	
 	Rect* data_;		

@@ -49,7 +49,7 @@ class HW02App : public AppBasic {
   private:
 
 	  // define the List
-	  Node* theList_;
+	  //Node* theList_;
 
 	  // define sentinel
 	  Node* sentinel_;
@@ -97,14 +97,14 @@ void HW02App::prepareSettings(Settings* settings){
 void HW02App::setup()
 {
 	// prepare the surface
-	mySurface_ = new Surface(TextureSize,TextureSize,false);
-	dataArr = mySurface_->getData();
+	//mySurface_ = new Surface(TextureSize,TextureSize,false);
+	//dataArr = mySurface_->getData();
 	
 	// set the menu image function to on
 	menuOn_ = true;
 	
-	Surface menu (loadImage( loadResource(RES_MENU) ) );
-	menu_ = new Surface(TextureSize, TextureSize, true);
+	//Surface menu (loadImage( loadResource(RES_MENU) ) );
+	//menu_ = new Surface(TextureSize, TextureSize, true);
 	//background_ = new Surface(TextureSize, TextureSize, true);
 
 	
@@ -113,8 +113,7 @@ void HW02App::setup()
 	//Establishes the inital sentinal node for our circular list. 
 	*/
 	sentinel_ = new Node;
-	sentinel_ = next_ = prev_ = this;
-	sentinel_->data_ = NULL;
+	
 
     
 	/**
@@ -142,16 +141,18 @@ void HW02App::setup()
 	Third:
 	?? how do we add this rect node to the link list
 	?  insertAfter();
-	*/
-	
 	theList_ = new Node(rect1, sentinel_);
-
 	theList_ ;
 	
 	drawRect(10,10,50,50,new Color8u(0,0,0), new Color8u(255,0,0), dataArr);
     insertNode(sentinel, 600, 190, 100);
     insertNode(sentinel->next, 400, 350, 100);
-
+	*/
+	
+	for (int i=1; i<=4; i++){ 
+		Rect* new_rect = new Rect (10.0, 10.0, 30.0, 30.0, (200,0,0)) ;
+		insertAfter(new_rect, sentinel_);
+	}
 }
 
 
@@ -169,7 +170,7 @@ void HW02App::mouseDown( MouseEvent event ) {
 		 // call something list
     }
 
-	 aRect_ =  new Rect(event.getX(), event.getY(), event.getX()+10. event.getX()+10); // pass some mouse click info here
+	 //aRect_ =  new Rect(event.getX(), event.getY(), event.getX()+10. event.getX()+10); // pass some mouse click info here
 }
 
 
@@ -221,11 +222,7 @@ void HW02App::update()
 	// keep the instructions in the console screen
 	 console() << "Press Q for something. \n Press W for something else. \n Press E for something else. \n Press T for something else. \n Press ? to toggle the display. \n "  << std::endl;
 
-	 //Go through linked list draw every node. 
-	for(Node* cur_ = sentinel_->next_; cur_->item != NULL; cur_ = cur_->next_)
-	   {
-		cur_-> data_ -> drawRect();
-		}
+	
 
 }
 
@@ -236,17 +233,27 @@ void HW02App::draw()
 
 
 		// draw background, if I decide to use it
-		gl::draw(*background_);
+		//gl::draw(*background_);
 
 		// draw the menu if it's value is true
 		/**
 		if( myImage )
 			gl::draw( myImage, getWindowBounds() );
-		*/
+
+
 		if(menuOn_){
 		gl::draw(*menu_ , getWindowBounds());
 		}
+		*/
 
+
+		 //Go through linked list draw every node. 
+	for(Node* cur_ = sentinel_->next_; cur_ != sentinel_; cur_ = cur_->next_)
+	   {
+		cur_-> data_ -> drawRect();
+		}
+
+	
 
 
 	// for drawing text on screen

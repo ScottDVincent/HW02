@@ -33,9 +33,10 @@ using namespace std;		// standard library
 
 	//Constructor for Node
 	Node::Node(){
-		next_ = prev_ = this;		// create self-referential sentinel node; the assignments go in reverse order
-		//children_ = NULL;			// no children in this node, yet
+		next_ = prev_ = this;		// create self-referential node; the assignments go in reverse order
 		data_ = new Rect();			// data item will be a Rect object
+
+		//children_ = NULL;			// no children in this node, yet
 	}
 
 
@@ -86,7 +87,8 @@ void insertAfter (Rect* new_rect, Node* cur) {
 	newNode_p -> prev_= current;			// 6: theNode's prev_ now points behind it to where	
 	*/						  
 
-	nodeCount_ += nodeCount_ ;			// increase nodeCount
+	//nodeCount_ += nodeCount_ ;			// increase nodeCount
+
 	}
 
 
@@ -120,18 +122,18 @@ void Node::addNode (Rect new_rect, Node* next_Node){
 
 
 // argument is a Node object 
-void Node::deleteNode (Node* delNode){
+void deleteNode (Node* delNode){
 
 	 delNode-> next_-> prev_ = delNode-> prev_; //(1) sets t up as the link from x
 	 delNode-> prev_-> next_ = delNode-> next_; //(2) x link points to whatever t link points to
 	 delete delNode;						    //(3) the memory space for t is deleted	
 
-	nodeCount_ -= nodeCount_;		// decement count of items in list
+	//nodeCount_ -= nodeCount_;		// decement count of items in list
 }
 
 
 // argument is a Node pointer for project
-void Node::reverseList (Node* sentinel){
+void reverseList (Node* sentinel){
 	
 	/*** FROM BOOK USING STRUCT
 	link reverse(link x)
@@ -169,9 +171,10 @@ void Node::reverseList (Node* sentinel){
 	//(1) get to end of list 
 			Node* end;
 			Node* tmpNext;
+			Node* cur;
 
 			end = sentinel -> prev_;
-			cur_ = end ;
+			cur = end ;
 
 	//(2) and go backwards
 
@@ -182,25 +185,25 @@ void Node::reverseList (Node* sentinel){
 			//4 prev_ = 3			4 prev_ = 1				4,3 & 1 are same addy,						
 			//4 next_ = 1         4 next_ = 3				only the prev_ & next_ changed
 	
-			tmpNext = cur_ -> next_;				// set tmpNext to the current_ node's next pointer
-			cur_ -> next_ = cur_ -> prev_;		// set current node's next_ pointer to 
+			tmpNext = cur -> next_;				// set tmpNext to the current_ node's next pointer
+			cur -> next_ = cur -> prev_;		// set current node's next_ pointer to 
 														//  the current_'s previous pointer
-			cur_ -> prev_ = tmpNext;   // set current node's previous pointer to 
+			cur -> prev_ = tmpNext;   // set current node's previous pointer to 
 														//  the current_'s next pointer (stored in tmpNext_)
 
 			//(4)	move current back one
-			cur_ = cur_ -> next_;				// next_ is now pointing to the current's previous, we just switched it above, so we have to use next_
+			cur = cur -> next_;				// next_ is now pointing to the current's previous, we just switched it above, so we have to use next_
 
 			// we want the changes to go back through the sentinel and stop at the end (now beginning)  node
 			}
-		while (cur_ != end);
+		while (cur != end);
 		
 
 }
 
 
 
-void Node::reorderList (Node* fromNode, Node* toNode){
+void reorderList (Node* fromNode, Node* toNode){
 
 	fromNode->next_->prev_ = fromNode->prev_;		// set cur next 's prev to the one before cur
 	fromNode->prev_->next_ = fromNode->next_;		// set cur prev to cur's next
@@ -215,16 +218,18 @@ void Node::reorderList (Node* fromNode, Node* toNode){
 
 
 // start at the first item and iterate thru list
-void Node::traverseList (Node* sentinel){
+void traverseList (Node* sentinel){
 	
-	// ? can I use the same cur_ I have declared above ?
-	cur_ = sentinel -> next_;	// set cur to first item, which is after the sentinel
-	
-	while (cur_ != sentinel){	// move forward through the list
+	Node* cur;
 
-			displayNode (cur_);	
+	// ? can I use the same cur_ I have declared above ?
+	cur = sentinel -> next_;	// set cur to first item, which is after the sentinel
+	
+	while (cur != sentinel){	// move forward through the list
+
+			displayNode (cur);	
 	}
-		cur_ = cur_ -> next_ ;	// update the cur to the next node
+		cur = cur -> next_ ;	// update the cur to the next node
 
 }
 
@@ -232,9 +237,9 @@ void Node::traverseList (Node* sentinel){
 
 
 // argument is a int, Node object for project
-void Node::displayNode (Node* inNode){		
+void displayNode (Node* inNode){		
 	
-           drawRect(inNode->X1, inNode->Y1, inNode->X2, inNode -> Y2, inNode ->Color(0,0,0) );
+          // drawRect(inNode->X1, inNode->Y1, inNode->X2, inNode -> Y2, inNode -> color );
 
 
 
@@ -256,7 +261,7 @@ void Node::displayNode (Node* inNode){
 
 
 // adds a child node at the node passed in
-void Node::addChild(int inNode){
+void addChild(int inNode){
 
 	/** Dr Brinkman's code
 		Node* newNode = new Node(depth,position_,Vec2f(0.0,0.0),0.45*radius_);
