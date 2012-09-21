@@ -13,7 +13,8 @@
  * give attribution. Commercial uses are allowed.
  *
 
-
+ */
+/**
 // other ideas
 http://www.martinbroadhurst.com/articles/circular-linked-list.html
 
@@ -51,7 +52,7 @@ http://www.martinbroadhurst.com/articles/circular-linked-list.html
 
 ////////////////////////////////////////
 
-#include "Rect.h";
+#include "Rect.h"
 
 class Node{
 public:		
@@ -63,15 +64,8 @@ public:
 			
 	/**
 	Member Variables
+    */
 
-	/// TYPES: from book
-		typedef int Item;
-		struct node { Item item; node *next; };
-		typedef node *link;
-		typedef link Node;
-	*/
-
-	
 
 	// External node pointers to the list
 	//Node* cur_;
@@ -82,21 +76,8 @@ public:
 	// a Rect object to hold data	
 	Rect* data_;		
 		
+};   // end member declarations
 
-
-	/**
-	Member Methods
-	
-		/// METHODS: from book
-		void construct(int);
-		Node newNode(int);
-		void deleteNode(Node);
-		void insert(Node, Node);
-		Node remove(Node);
-		Node next(Node);
-		Item item(Node);
-
-	*/
 
 
 	/**
@@ -181,4 +162,4 @@ public:
 	bool isEmpty();
 
 
-};     // end declarations and Node.h file
+   

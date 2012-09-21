@@ -20,7 +20,6 @@
 #include "cinder/Text.h"
 #include "cinder/Rand.h"
 #include "cinder/ImageIo.h"
-#include "Rect.h"		 // class header
 #include "List.h"		 // class header
 
 
@@ -45,8 +44,10 @@ class HW02App : public AppBasic {
 	void draw();
 	//void showMenu(int);
 
+	
 
-  private:
+
+private:
 
 	  // define the List
 	  //Node* theList_;
@@ -69,20 +70,17 @@ class HW02App : public AppBasic {
 		Surface* background_;
 
 		
-
 		//maybe I'll need this
 		Rect* tempRect_;
 
+		int red;
+		int green;
+		int blue;
 	
 };  // the above should really go in a .h file
 
 
-/**
-Local Variables
-*/
-	int red = 200;
-	int green = 200;
-	int blue = 000;
+
 	
 
 
@@ -93,9 +91,22 @@ void HW02App::prepareSettings(Settings* settings){
 }
 
 
+void randomColor(){
+     int red =   rand()%256;		//use modulus to get a random color
+     int green = rand()%256;
+     int blue =  rand()%256;
+}
 
-void HW02App::setup()
-{
+
+void HW02App::setup(){
+
+	//** local vars
+	red = 100;
+	green = 100;
+	blue = 100;
+	
+	
+
 	// prepare the surface
 	//mySurface_ = new Surface(TextureSize,TextureSize,false);
 	//dataArr = mySurface_->getData();
@@ -149,10 +160,24 @@ void HW02App::setup()
     insertNode(sentinel->next, 400, 350, 100);
 	*/
 	
-	for (int i=1; i<=4; i++){ 
-		Rect* new_rect = new Rect (10.0, 10.0, 30.0, 30.0, (200,0,0)) ;
+	int offset = 0;
+	//for (int i=1; i<=4; i++){ 
+
+		randomColor();
+		//Rect* new_rect = new Rect (10.0+offset, 10.0+offset, 50.0+offset, 50.0+offset,  Color8u(red+offset, blue+offset, green+offset) ) ;
+		//insertAfter(new_rect, sentinel_);
+
+		Rect* new_rect =  new Rect (100, 100, 200, 200, Color8u(100,200,50) );
 		insertAfter(new_rect, sentinel_);
-	}
+		Rect* new_rect2 =  new Rect (150, 150, 220, 220, Color8u(50,35,50) );
+		insertAfter(new_rect2, sentinel_);
+		Rect* new_rect3 =  new Rect (180, 180, 250, 250, Color8u(70,200,230) );
+		insertAfter(new_rect3, sentinel_);
+		Rect* new_rect4 =  new Rect (200, 200, 270, 270, Color8u(10,20,150) ); 
+		insertAfter(new_rect4, sentinel_);
+
+		//offset +=20;
+	//}
 }
 
 
@@ -163,14 +188,16 @@ void HW02App::mouseDown( MouseEvent event ) {
 	//int y = event.getY();
 	
 	 if( event.isRight() ) {
-		 // call reorder list
+		reverseList(sentinel_);
     }
 
 	  if( event.isLeft() ) {
 		 // call something list
+		 Rect* new_rect = new Rect (event.getX(), event.getY(), event.getX()+20, event.getY()+20,  Color8u(0, 0, 0) ) ;
+		 insertAfter(new_rect, sentinel_);
     }
 
-	 //aRect_ =  new Rect(event.getX(), event.getY(), event.getX()+10. event.getX()+10); // pass some mouse click info here
+	
 }
 
 
@@ -183,8 +210,11 @@ void  HW02App::keyDown( KeyEvent event ) {
 
     if( event.getChar() == 'q' ){
         // call  add rect node
+
+
     } else if( event.getChar() == 'w' ){
         //call reverse node
+		reverseList(sentinel_);
     } else if( event.getChar() == 'e' ){
         // call rearrange rect node
     } else if( event.getChar() == '?' ){
@@ -228,8 +258,8 @@ void HW02App::update()
 
 void HW02App::draw()
 {
-		// clear out the window with black
-		gl::clear( Color( 0, 0, 0 ) ); 
+		// clear out the window with white
+		gl::clear( Color( 255, 255, 255 ) ); 
 
 
 		// draw background, if I decide to use it
@@ -265,10 +295,6 @@ void HW02App::draw()
 }
 
 
-void randomColor(){
-    red =   rand()%256;		//use modulus to get a random color
-    green = rand()%256;
-    blue =  rand()%256;
-}
+
 
 CINDER_APP_BASIC( HW02App, RendererGl )

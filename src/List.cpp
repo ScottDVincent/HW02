@@ -14,7 +14,7 @@
 
 #include "cinder/gl/gl.h"
 #include "cinder/app/AppBasic.h"
-#include "cinder/Rand.h";
+#include "cinder/Rand.h"
 #include "List.h"
 
 
@@ -48,7 +48,7 @@ void insertAfter (Rect* new_rect, Node* cur) {
 	/**
 	* in this example "cur" is the node we are placing a new node after
 	*/
-	Node* tmpPrev;						// ? should this be a Node* type ?
+	//Node* tmpPrev;						// ? should this be a Node* type ?
 	
 	// create new node	
 	Node* newNode_p = new Node;			// allocating space for a new Node pointer
