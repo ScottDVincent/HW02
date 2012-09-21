@@ -31,47 +31,46 @@ using namespace std;		// standard library
 		x2_ = x2;
 		y2_ = y2;
 
-		
+		inColor_ = inColor;
+
+		/**
 		// put the argument color into an array to use later
 		newColor = new uint8_t[3];
 		//question is how to get the colors from the function call into the array
-		newColor[0] = inColor.r;
-		newColor[1] = inColor.g;
-		newColor[2] = inColor.b;
-		
-
-		/**
-		rand_red_ =   rand()%256;		//use modulus to get a random color
-		rand_green_ = rand()%256;
-		rand_blue_ =  rand()%256;
+		newColor[0] = inColor_.r;
+		newColor[1] = inColor_.g;
+		newColor[2] = inColor_.b;
 		*/
-		
+
 	}
-
-//void drawRectangle(int xA, int yA, int xB, int yB, Color8u* fill);
-
-
-
-
 
 	/**
 void randomColor(){
-     rand_red_ =   rand()%256;		//use modulus to get a random color
-     rand_green_ = rand()%256;
-     rand_blue_ =  rand()%256;
+     int rand_red_ =   rand()%256;		//use modulus to get a random color
+     int rand_green_ = rand()%256;
+     int rand_blue_ =  rand()%256;
 }
 */
+
 	
 void Rect::drawRect(){
 
 //using cinder: http://libcinder.org/docs/v0.8.2/hello_cinder_chapter3.html
-// set color
-//gl::color(newColor[0], newColor[1], newColor[2]);// this will cause the clicked blocks to draw around the setup() draw blocks but not overtop ot them
-gl::color(inColor.r, inColor.g, inColor.b);
-// gl::color(rand_red_, rand_green_, rand_blue_); //draws nothing but white
 
-// draw rectangle
+// set color
+//    gl::color(newColor[0], newColor[1], newColor[2]);// this will cause the clicked blocks to draw around the setup() draw blocks but not overtop ot them
+	
+	gl::color(inColor_);
+	
+//	gl::color(inColor_.r, inColor_.g, inColor_.b);
+
+//  gl::color(rand_red_, rand_green_, rand_blue_); //draws nothing but white
+
+//  draw rectangle
 gl::drawSolidRect(Rectf (x1_, y1_, x2_, y2_) );
+
+
+
 
 
 }

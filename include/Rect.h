@@ -45,16 +45,13 @@ public:
 
 	// for rect shape
 	float x1_, y1_, x2_, y2_;
-
+	Color8u inColor_;
 	uint8_t* newColor; 
-	Color8u colorRect;
-	Color8u inColor;
 	
-	int rand_red_;
-	int rand_green_;
-	int rand_blue_;
+	//Color8u colorRect;
 	
 	
+
 	
 	/// Member Methods
 

@@ -92,9 +92,9 @@ void HW02App::prepareSettings(Settings* settings){
 
 
 void randomColor(){
-     int red =   rand()%256;		//use modulus to get a random color
-     int green = rand()%256;
-     int blue =  rand()%256;
+      int red_ =   rand()%256;		//use modulus to get a random color
+      int green_ = rand()%256;
+      int blue_ =  rand()%256;
 }
 
 
@@ -161,12 +161,13 @@ void HW02App::setup(){
 	*/
 	
 	int offset = 0;
-	//for (int i=1; i<=4; i++){ 
+	for (int i=1; i<=6; i++){ 
 
 		randomColor();
-		//Rect* new_rect = new Rect (10.0+offset, 10.0+offset, 50.0+offset, 50.0+offset,  Color8u(red+offset, blue+offset, green+offset) ) ;
-		//insertAfter(new_rect, sentinel_);
+		Rect* new_rect = new Rect (10.0+offset, 10.0+offset, 50.0+offset, 50.0+offset,  Color8u(rand()%256,rand()%256,rand()%256)); //red+offset, blue+offset, green+offset) ) ;
+		insertAfter(new_rect, sentinel_ -> prev_);
 
+		/**
 		Rect* new_rect =  new Rect (100, 100, 200, 200, Color8u(100,200,50) );
 		insertAfter(new_rect, sentinel_);
 		Rect* new_rect2 =  new Rect (150, 150, 220, 220, Color8u(50,35,50) );
@@ -175,9 +176,9 @@ void HW02App::setup(){
 		insertAfter(new_rect3, sentinel_);
 		Rect* new_rect4 =  new Rect (200, 200, 270, 270, Color8u(10,20,150) ); 
 		insertAfter(new_rect4, sentinel_);
-
-		//offset +=20;
-	//}
+		*/
+		offset +=20;
+	}
 }
 
 
@@ -193,7 +194,7 @@ void HW02App::mouseDown( MouseEvent event ) {
 
 	  if( event.isLeft() ) {
 		 // call something list
-		 Rect* new_rect = new Rect (event.getX(), event.getY(), event.getX()+20, event.getY()+20,  Color8u(0, 0, 0) ) ;
+		 Rect* new_rect = new Rect (event.getX(), event.getY(), event.getX()+20, event.getY()+20,  Color8u(rand()%256, rand()%256, rand()%256) ) ;
 		 insertAfter(new_rect, sentinel_);
     }
 
