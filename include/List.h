@@ -17,41 +17,10 @@
 /**
 // other ideas
 http://www.martinbroadhurst.com/articles/circular-linked-list.html
-
-
  */ 
 
-/**
-	// our linked list data structure, but really we are using a class so we shouldn't need this
-		struct node {
-			//Item item; 	   		// place for the data
-			Rect rect;				// Rect object
-			//int item;				// place for the data
-			node* nextNode;			// a pointer named next of type 'node'
-		
-
-		    /// from book -- declares what a node is
-			node(LinkedList x, node* t)	
-			{
-			   rect = x; next = t; // rect is x and next node pointer is t
-			};
-			
-		
-	}  *root ;  // end struct
-
-
-		// link is a pointer node type
-		typedef node* link;
-
-
-		// initalize each new node when we construct it.
-		// have to give the pointer a valid addy before using it
-		link t = new node(x, t);
-
-*/
-
 ////////////////////////////////////////
-
+#pragma once
 #include "Rect.h"
 
 class Node{
@@ -62,11 +31,6 @@ public:
 	Node(Rect* data, Node* node);
 
 			
-	/**
-	Member Variables
-    */
-
-
 	// External node pointers to the list
 	//Node* cur_;
 	Node* next_;
@@ -75,6 +39,8 @@ public:
 
 	// a Rect object to hold data	
 	Rect* data_;		
+
+	int nodeCount_;
 		
 };   // end member declarations
 
@@ -144,7 +110,7 @@ public:
 	* int nodeCount
 	* return an int with the number of nodes, including the sentinel 
 	*/
-	int nodeCount (Node* sentinel);
+	int nodeCount ();
 
 
 	/**

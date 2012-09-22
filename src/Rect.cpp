@@ -12,27 +12,30 @@
  * give attribution. Commercial uses are allowed.
  */ 
 
-#include "cinder/gl/gl.h"
+//#include "cinder/gl/gl.h"
+#include "math.h"
 #include "Rect.h"
 
+
 using namespace ci;
+using namespace ci::app;
 using namespace std;		// standard library
 
-		
 
 	// constructor
 
 	Rect::Rect(){
 	}
 
-	Rect::Rect (float x1, float y1, float x2, float y2, Color8u inColor ) {	
+	Rect::Rect (float x1, float y1, float x2, float y2, Color8u inColor, int shake ) {	
 		x1_ = x1;
 		y1_ = y1;
 		x2_ = x2;
 		y2_ = y2;
 
 		inColor_ = inColor;
-
+		shakeFactor_ = shake;
+		
 		/**
 		// put the argument color into an array to use later
 		newColor = new uint8_t[3];
@@ -41,8 +44,8 @@ using namespace std;		// standard library
 		newColor[1] = inColor_.g;
 		newColor[2] = inColor_.b;
 		*/
+}
 
-	}
 
 	/**
 void randomColor(){
@@ -51,6 +54,15 @@ void randomColor(){
      int rand_blue_ =  rand()%256;
 }
 */
+
+
+void Rect::shakeMore(){ 
+	shakeFactor_ += shakeFactor_;
+}
+
+void Rect::shakeLess(){
+	shakeFactor_ -= shakeFactor_;
+}
 
 	
 void Rect::drawRect(){
@@ -67,7 +79,11 @@ void Rect::drawRect(){
 //  gl::color(rand_red_, rand_green_, rand_blue_); //draws nothing but white
 
 //  draw rectangle
-gl::drawSolidRect(Rectf (x1_, y1_, x2_, y2_) );
+		
+		int shakeX_ = rand()%shakeFactor_;
+		int shakeY_ = rand()%shakeFactor_;
+
+		gl::drawSolidRect(Rectf (x1_+ shakeX_, y1_+ shakeY_, x2_+shakeX_, y2_+shakeY_) );
 
 
 

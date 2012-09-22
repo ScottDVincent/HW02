@@ -13,15 +13,20 @@
  *
  */
 
+
+//cinder includes
 #include "cinder/app/AppBasic.h"
 #include "cinder/gl/gl.h"
 #include "cinder/app/App.h"
 #include "cinder/gl/Texture.h"
+#include "boost/date_time/posix_time/posix_time.hpp"
 #include "cinder/Text.h"
 #include "cinder/Rand.h"
 #include "cinder/ImageIo.h"
-#include "List.h"		 // class header
+#include "cinder/app/KeyEvent.h"
 
+//my includes
+#include "List.h"				// class header
 
 
 using namespace ci;
@@ -42,6 +47,7 @@ class HW02App : public AppBasic {
 	void setup();
 	void update();
 	void draw();
+	void randomColor();
 	//void showMenu(int);
 
 	
@@ -52,8 +58,10 @@ private:
 	  // define the List
 	  //Node* theList_;
 
+	  
 	  // define sentinel
 	  Node* sentinel_;
+	  Node* cur_;
 
 		//Width and height of the screen
 		static const int AppWidth=800;
@@ -64,24 +72,25 @@ private:
 		//bgColor = new Color8u (255,255,255);
 		
 		
-		// declare the menu functions
+		//Track how many frames we have shown, for animation purposes
+		int frame_number_;
+		boost::posix_time::ptime app_start_time_;
+
+
+		// declare the menu parameters
 		bool menuOn_;
 		Surface* menu_;
 		Surface* background_;
-
+		gl::Texture theImage;
 		
 		//maybe I'll need this
 		Rect* tempRect_;
 
-		int red;
-		int green;
-		int blue;
+		int red_;
+		int green_;
+		int blue_;
 	
 };  // the above should really go in a .h file
-
-
-
-	
 
 
 
@@ -91,20 +100,17 @@ void HW02App::prepareSettings(Settings* settings){
 }
 
 
-void randomColor(){
-      int red_ =   rand()%256;		//use modulus to get a random color
-      int green_ = rand()%256;
-      int blue_ =  rand()%256;
+void HW02App::randomColor(){
+      red_ =   rand()%256;		//use modulus to get a random color
+      green_ = rand()%256;
+      blue_ =  rand()%256;
 }
 
 
 void HW02App::setup(){
 
 	//** local vars
-	red = 100;
-	green = 100;
-	blue = 100;
-	
+		
 	
 
 	// prepare the surface
@@ -114,7 +120,9 @@ void HW02App::setup(){
 	// set the menu image function to on
 	menuOn_ = true;
 	
-	//Surface menu (loadImage( loadResource(RES_MENU) ) );
+	//theImage = gl::Texture( loadImage( loadResource( RES_MENU ) ) );
+	//Surface menu_ (loadImage( loadResource(RES_MENU) ) );
+	
 	//menu_ = new Surface(TextureSize, TextureSize, true);
 	//background_ = new Surface(TextureSize, TextureSize, true);
 
@@ -163,18 +171,18 @@ void HW02App::setup(){
 	int offset = 0;
 	for (int i=1; i<=6; i++){ 
 
-		randomColor();
-		Rect* new_rect = new Rect (10.0+offset, 10.0+offset, 50.0+offset, 50.0+offset,  Color8u(rand()%256,rand()%256,rand()%256)); //red+offset, blue+offset, green+offset) ) ;
-		insertAfter(new_rect, sentinel_ -> prev_);
+		//randomColor();
+		Rect* new_rect = new Rect (10.0+offset, 10.0+offset, 50.0+offset, 50.0+offset,  Color8u(rand()%256,rand()%256,rand()%256), rand()%10); //red+offset, blue+offset, green+offset) ) ;
+		insertAfter(new_rect, sentinel_ -> next_);
 
-		/**
-		Rect* new_rect =  new Rect (100, 100, 200, 200, Color8u(100,200,50) );
+		/** add manually
+		Rect* new_rect =  new Rect (100, 100, 200, 200, Color8u(100,200,50), 10, );
 		insertAfter(new_rect, sentinel_);
-		Rect* new_rect2 =  new Rect (150, 150, 220, 220, Color8u(50,35,50) );
+		Rect* new_rect2 =  new Rect (150, 150, 220, 220, Color8u(50,35,50), 5 );
 		insertAfter(new_rect2, sentinel_);
-		Rect* new_rect3 =  new Rect (180, 180, 250, 250, Color8u(70,200,230) );
+		Rect* new_rect3 =  new Rect (180, 180, 250, 250, Color8u(70,200,230), 8 );
 		insertAfter(new_rect3, sentinel_);
-		Rect* new_rect4 =  new Rect (200, 200, 270, 270, Color8u(10,20,150) ); 
+		Rect* new_rect4 =  new Rect (200, 200, 270, 270, Color8u(10,20,150), 1 ); 
 		insertAfter(new_rect4, sentinel_);
 		*/
 		offset +=20;
@@ -194,7 +202,7 @@ void HW02App::mouseDown( MouseEvent event ) {
 
 	  if( event.isLeft() ) {
 		 // call something list
-		 Rect* new_rect = new Rect (event.getX(), event.getY(), event.getX()+20, event.getY()+20,  Color8u(rand()%256, rand()%256, rand()%256) ) ;
+		 Rect* new_rect = new Rect (event.getX(), event.getY(), event.getX()+rand()%50, event.getY()+rand()%50,  Color8u(rand()%256, rand()%256, rand()%256), rand()%10 ) ;
 		 insertAfter(new_rect, sentinel_);
     }
 
@@ -210,14 +218,16 @@ void  HW02App::keyDown( KeyEvent event ) {
 	
 
     if( event.getChar() == 'q' ){
-        // call  add rect node
-
-
+        reorderList (sentinel_ -> next_ , sentinel_ -> next_ -> next_);
     } else if( event.getChar() == 'w' ){
         //call reverse node
 		reverseList(sentinel_);
     } else if( event.getChar() == 'e' ){
         // call rearrange rect node
+	} else if(  event.getCode() == KeyEvent::KEY_RIGHT ){
+		// shakeMore();
+	} else if( event.getCode() == KeyEvent::KEY_LEFT ){
+		 //shakeLess();
     } else if( event.getChar() == '?' ){
         if (menuOn_) {
 			// toggle console to off
@@ -234,7 +244,7 @@ void  HW02App::keyDown( KeyEvent event ) {
 
 
 /**
-void HW02App::showMenu(int on){
+void HW02App::showMenu(){
     if (on = 1) {
 		// draw menu screen
 		  menuOn_ = true;
@@ -260,7 +270,7 @@ void HW02App::update()
 void HW02App::draw()
 {
 		// clear out the window with white
-		gl::clear( Color( 255, 255, 255 ) ); 
+		gl::clear( Color( 255, 255, 255 ), true  ); 
 
 
 		// draw background, if I decide to use it
@@ -279,9 +289,9 @@ void HW02App::draw()
 
 
 		 //Go through linked list draw every node. 
-	for(Node* cur_ = sentinel_->next_; cur_ != sentinel_; cur_ = cur_->next_)
-	   {
-		cur_-> data_ -> drawRect();
+	    for (Node* cur_ = sentinel_->next_; cur_ != sentinel_; cur_ = cur_->next_)
+		{
+		       cur_-> data_ -> drawRect();		//for each data_ member of each node call the drawRect method
 		}
 
 	

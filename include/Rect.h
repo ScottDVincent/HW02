@@ -14,6 +14,7 @@
  *
  */ 
 
+#pragma once
 
 #include "cinder/app/AppBasic.h"
 #include "cinder/gl/gl.h"
@@ -28,8 +29,8 @@ public:
 
 	///Constructors
 
-	Rect ();														// no argument constructor
-	Rect (float x1, float y1, float x2, float y2, Color8u color );  //cinder construct
+	Rect ();																  // no argument constructor
+	Rect (float x1, float y1, float x2, float y2, Color8u color, int shake);  //cinder construct
 	
 	// old code: Rect (uint8_t* pixels, int x_width, int y_height, int x_origin, int y_origin, Color8u c);  // argument constructor
 
@@ -49,26 +50,27 @@ public:
 	uint8_t* newColor; 
 	
 	//Color8u colorRect;
-	
-	
+    int shakeFactor_ ;
 
 	
 	/// Member Methods
-
 	void randomColor();
+	void shake(int shakeFactor);
+
+	void shakeMore();
+	void shakeLess();
 	
 	/**
 	drawRect
-	@param: int x_width
-	@param: int y_height
-	@param: int x_origin
-	@param: int y_origin
+	@param: int x1
+	@param: int y1
+	@param: int x2
+	@param: int y2
 	@param: Color8u (c.red, c.blue, c.green)
+	@param: int shake
 	*/
-
-	//void drawRect(uint8_t* pixels, int x_width, int y_height, int x_origin, int y_origin, Color8u c);
 	void drawRect();
 
+};     // end declarations and Rect.h file	
 
-};     // end declarations and Rect.h file
 

@@ -87,6 +87,8 @@ void insertAfter (Rect* new_rect, Node* cur) {
 	newNode_p -> prev_= current;			// 6: theNode's prev_ now points behind it to where	
 	*/						  
 
+	// where to declare nodeCount_ so that it's available to all List methods?
+	// would it go in the constructor?
 	//nodeCount_ += nodeCount_ ;			// increase nodeCount
 
 	}
@@ -239,7 +241,7 @@ void traverseList (Node* sentinel){
 // argument is a int, Node object for project
 void displayNode (Node* inNode){		
 	
-          // drawRect(inNode->X1, inNode->Y1, inNode->X2, inNode -> Y2, inNode -> color );
+          // drawRect(inNode->X1, inNode->Y1, inNode->X2, inNode -> Y2, inNode -> color, inNode ->shake );
 
 
 
@@ -281,7 +283,7 @@ void addChild(int inNode){
 int nodeCount (Node* sentinel){
 
 		Node* cur = sentinel -> next_;
-		int theCount = 1; // includes the sentinel
+		int theCount = 1;				// includes the sentinel
 
 		while(cur != sentinel) {
 			theCount++;
