@@ -26,13 +26,13 @@ using namespace std;		// standard library
 
 	
 	/** 
-	Default Rect constructor
+	*Default Rect constructor
 	*/  
 	Rect::Rect(){
 	}
 
 	/**
-	*
+	*Rect constructor
 	*/
 	Rect::Rect (float x1, float y1, float x2, float y2, Color8u inColor, int shake ) {	
 		x1_ = x1;
@@ -42,34 +42,19 @@ using namespace std;		// standard library
 
 		inColor_ = inColor;
 		shakeFactor_ = shake;
-		
 }
-
-
-	/**
-void randomColor(){
-     int rand_red_ =   rand()%256;		//use modulus to get a random color
-     int rand_green_ = rand()%256;
-     int rand_blue_ =  rand()%256;
-}
-*/
 
 
 void Rect::shakeMore(){ 
-	// would this update the shakeFactor_ for each object?
-	//shakeFactor_ += shakeFactor_;
-	// or would I need to do this with a loop?
-	
-	/**
-	 for (Node* cur_ = sentinel->next_; cur_ != sentinel; cur_ = cur_->next_)
-		{
-		       cur_-> data_ -> shakeFactor_ += shakeFactor_;		//for each data_ member of each node call the drawRect method
-		}
-	 */
+
+	if (shakeFactor_ < 10) 
+	++shakeFactor_; 
 }
 
 void Rect::shakeLess(){
-	shakeFactor_ -= shakeFactor_;
+
+	if (shakeFactor_ > 0) 
+	--shakeFactor_; 
 }
 
 	
@@ -82,21 +67,24 @@ void Rect::drawRect(){
 	shadowOffset += shake;
 
 	// Create a Drop Shadow for each rectangle giing depth to an object [Goal H]
+		
 		// turn on alpha blending
+		//http://libcinder.org/docs/v0.8.2/namespacecinder_1_1gl.html#a2cb8982a5a007376031745ac074bed4c
 		gl::enableAlphaBlending();
+
 		//activate the alpha channel
 		gl::color(ColorA(0.0f,0.0f,0.0f,0.25f));
 		// draw a rectangle offset from the primary rect
 		gl::drawSolidRect(Rectf (x1_+shadowOffset, y1_+shadowOffset, x2_+shadowOffset, y2_+shadowOffset),  6.0f);
 		//turn off alpha
 		gl::disableAlphaBlending();	
-
 		// set the color of the list rectangle		
 		gl::color(inColor_);	
 		// draw list rectangle
 		gl::drawSolidRect(Rectf (x1_+ shake, y1_+ shake, x2_+shake, y2_+shake) );
-		
+				
 }
+
 
 /**
 

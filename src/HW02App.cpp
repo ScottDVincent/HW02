@@ -55,16 +55,14 @@ class HW02App : public AppBasic {
 	void update();
 	void draw();
 	void randomColor();
-	//void showMenu(int);
-
 	
-
 
 private:
 	  
 	  // define sentinel
 	  Node* sentinel_;
 	  Node* cur_;
+	  Node* firstChild_;
 
 		//Width and height of the screen
 		static const int AppWidth=800;
@@ -91,11 +89,7 @@ private:
 		Surface* background_;
 		gl::Texture theImage;
 
-		
-		Rect* tempRect_;
-		int red_;
-		int green_;
-		int blue_;
+	
 	
 };  // the above should really go in a .h file
 
@@ -104,13 +98,6 @@ private:
 void HW02App::prepareSettings(Settings* settings){
 	settings->setWindowSize(AppWidth,AppHeight);
 	settings->setResizable(false);
-}
-
-
-void HW02App::randomColor(){
-      red_ =   rand()%256;		//use modulus to get a random color
-      green_ = rand()%256;
-      blue_ =  rand()%256;
 }
 
 
@@ -170,7 +157,8 @@ void HW02App::setup(){
 	Third:	
 	// add three children to the first node and see if they follow it. use the reorder function to test
 	*/
-	Node* firstChild = sentinel_-> children_; // this will create the head child node
+	firstChild_ = new Node();
+	firstChild_ = sentinel_-> children_; // this will create the head child node
 
 }
 
@@ -199,30 +187,36 @@ void  HW02App::keyDown( KeyEvent event ) {
     if( event.getChar() == 'q' ){
 		 //call reverse node
 		reverseList(sentinel_);	
-    } else if( event.getChar() == 'w' ){
+    
+	} else if( event.getChar() == 'w' ){
        // call reorder list
         reorderList (sentinel_ -> next_ , sentinel_ -> next_ -> next_);
+	 
+	} else if( event.getChar() == 'e' ){
+
+		Rect* new_rect =  new Rect (400, 400, 500, 500, Color8u(100,200,50), 1 );
+		addChild(new_rect, sentinel_ -> next_);
+		Rect* new_rect2 =  new Rect (450, 450, 520, 520, Color8u(50,35,50), 1 );
+		addChild(new_rect2, sentinel_ -> next_);
+
 	} else if(  event.getCode() == KeyEvent::KEY_RIGHT ){
-		//shakeMore();
+		for (Node* cur_ = sentinel_->next_; cur_ != sentinel_; cur_ = cur_->next_)
+		{
+		       cur_-> data_ -> shakeMore();		//for each data_ member of each node call the drawRect method
+		}
+	
 	} else if( event.getCode() == KeyEvent::KEY_LEFT ){
-		 //shakeLess();
+		for (Node* cur_ = sentinel_->next_; cur_ != sentinel_; cur_ = cur_->next_)
+		{
+		       cur_-> data_ -> shakeLess();		//for each data_ member of each node call the drawRect method
+		} 
+	
 	} else if ((event.getChar() == '/') && hideMenu == false) {
 			hideMenu = true;
+	
 	} else if ((event.getChar() == '/') && hideMenu == true) {
 			hideMenu = false;
-/**
-    } else if( event.getChar() == '?' ){
-        if (menuOn_) {
-			// toggle console to off
-			menuOn_ = false;
-		} else { 
-			// toggle to on 
-			menuOn_ = true; //menuOn_ = true
-			
-		}
-		*/
     }
-
 
 } // end keyDown
 
@@ -252,11 +246,12 @@ void HW02App::draw(){
 
 	if(!hideMenu)                         // draw menu initially
 	{	
+		// libcinder.org/docs/v0.8.2/namespacecinder_1_1gl.html#a8715d619df092110ac326e7a4ab08098
 		gl::drawString("Menu Operations: q = reverses list, w = reorders list.", Vec2f(50.0f,200.0f),Color(0.0f,0.5f,0.0f), *font);	
 		gl::drawString("Menu Operations: Left click adds a node, right click reverse node", Vec2f(50.0f,250.0f),Color(0.0f,0.5f,0.0f), *font);	
 		gl::drawString("Press ? to toggle menu.", Vec2f(50.0f,300.0f),Color(0.0f,0.5f,0.0f),*font);	
 	    } else	{	
-		gl::clear(Color( 255, 255, 255 ));//Clear out text and makes screen white to better see occlusion
+		gl::clear(Color( 255, 255, 255 )); //Clear out text and makes screen white 
 	}
 		
 	
@@ -278,22 +273,14 @@ void HW02App::draw(){
 		}
 		*/
 
-
 		 //Go through linked list draw every node. 
 	    for (Node* cur_ = sentinel_->next_; cur_ != sentinel_; cur_ = cur_->next_)
 		{
 		       cur_-> data_ -> drawRect();		//for each data_ member of each node call the drawRect method
-		}
 
-	
-
-
-	// for drawing text on screen
-	//http://libcinder.org/docs/v0.8.4/_text_8h.html
-	//http://libcinder.org/docs/v0.8.4/classcinder_1_1_text_layout.html
-	//http://libcinder.org/docs/v0.8.4/classcinder_1_1_text_box.html
-	
-	
+			   if (cur_ -> children_ != NULL)
+				   cur_-> children_ -> data_ -> drawRect();
+		}	
 }
 
 

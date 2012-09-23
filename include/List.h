@@ -14,7 +14,6 @@
  */
 
 
-
 #pragma once
 #include "Rect.h"
 
@@ -36,9 +35,16 @@ public:
 
 	int nodeCount_;
 		
-};   // end member declarations
+
+   };   // end member declarations
 
 
+	/**
+	 @name: addChild
+	 @param: Rect  : the rectangle object 
+	 @param: Node* : a node pointer to where the item is being placed in the list
+	*/
+	void addChild (Rect* childRect, Node* parentNode);
 
 	/**
 	 @name: insertAfter
@@ -51,14 +57,7 @@ public:
 	*/
 	void insertAfter (Rect* new_rect, Node* current);
 
-	/**
-	 @name: addChild
-	 @param: Rect  : the rectangle object 
-	 @param: Node* : a node pointer to where the item is being placed in the list
-	*/
-	void addChild (Rect* childRect, Node* parentNode);
 	
-
 	/**
 	* void deleteNode
 	* @param Node* delNode: Pointer to addy of the node to be deleted
@@ -99,13 +98,6 @@ public:
 	void displayNode (Node* inNode);
 	
 
-	/**
-	* void diplayList
-	* @param node* inNode 
-	* adds a child node at the node passed in
-	*/
-	void addChild(int inNode);
-
 
 	/**
 	* int nodeCount
@@ -127,6 +119,3 @@ public:
 	* really shouldn't need this as I'm planning to go with a never-empty list
 	*/
 	bool isEmpty();
-
-
-   

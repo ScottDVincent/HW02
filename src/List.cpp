@@ -25,35 +25,27 @@ using namespace std;		// standard library
 
 
 	/** 
-	 * Constructs Node object which points to itself and has a data_ member
+	 * Constructs Node object which points to itself and has a data_ member and a child hook
 	*/  
 	Node::Node(){
 		next_ = prev_ = this;		// create self-referential node; the assignments go in reverse order
 		data_ = new Rect();			// data item will be a Rect object
-
-		//children_ = NULL;			// no children in this node, yet
+		children_ = NULL;			// child hook into the node, each node has no children initially
 	}
 
 
 
 	/** 
-	 * Constructs Node object which points to itself and has a data_ member
+	 * insertAfter method but perhaps it should be insertBefore since we want to insert at the end 
 	 * @param new_Rect: creates a new Rect object pointer
 	 * @param cur: is the current node we are inserting after, in this case the sentinal node 
 	*/ 
-
-	// insertAfter method but perhaps it should be insertBefore since we want to insert at the end
 	void insertAfter (Rect* new_rect, Node* cur) {
 	
-	/**
-	* in this example "cur" is the node we are placing a new node after
-	*/
-	//Node* tmpPrev;						// ? should this be a Node* type ?
-	
+		
 	// actually creates the new node	
 	Node* newNode_p = new Node;			// allocating space for a new Node pointer
 	newNode_p -> data_ =  new_rect;	    // 1: the data will be the rectangle info we are sending in
-	
 	
 	// DO THE NODE SWITCHING
 	//take care if newNode_p pointers first
@@ -63,66 +55,45 @@ using namespace std;		// standard library
 	cur -> next_ = newNode_p;					// alter current node pointer
 	newNode_p -> next_ -> prev_ = newNode_p;	// dereference newNode_p's pointers twice
 												// set newNode_p's next_'s "previous" pointer to newNode_p			
-
-
-	/**	old code idea
-
-	tmpPrev_ = &current -> prev_;		// 2: tmpPrev holds the addy of "current"'s next_'s prev_ : 
-										// ? did I place the & properly ?
-										// pointer var tmpPrev_ now holds the memory address of current -> prev_
-										// see #3
-
-		// #3: I want the value of tmpPrev to be changed to the location of theNode	
-		// ? how to code... (see c++ in 15; p433-35 for concept)
-		// ? current's next_'s prev_ = theNode_p   
-											// 6: problem is that "current"'s next_'s "previous_" is still poiningt at "current" and NOT theNode
-	 *tmpPrev_ = &theNode_p;				//  the dereferenced value of tmpPrev_ = the address of theNode_p
-				
-	 newNode_p -> -> prev_ = theNode_p;
-											// bounds checking:	// ?? will I run into a situation where I will ever dereference a NULL next pointer? 	
-											// == I don't think so. All nodes should always have a valid pointer				
-	
-	newNode_p -> next_ = current -> next_;  // 4: points the new Node to what it's previous node was pointing to
-	current -> next_ = newNode_p;			// 5: current's next_ now points to the newNode
-	newNode_p -> prev_= current;			// 6: theNode's prev_ now points behind it to where	
-	*/						  
-
+		
 	// where to declare nodeCount_ so that it's available to all List methods?
 	// would it go in the constructor?
 	//nodeCount_ += nodeCount_ ;			// increase nodeCount
 
 	}
 
+
+/** Adds a child to a node
+	* @param Rect* childRect
+	* @param Node* parentNode
+	*/
 void addChild (Rect* childRect, Node* parentNode){
 
+		if(parentNode -> children_ == NULL){        // if this node doesn't have any children
+			Node* children_ = new Node();			// allocating space for a new Node pointer
+			children_ -> data_ =  childRect;	
+			children_ -> prev_ = parentNode;        //adds the first child of the new list at parent node
+		} else {	
+			insertAfter(childRect, parentNode);		// adds a another node onto the child list
+		}
 }
 
 
+//void addChild(int inNode){
 
-/**
-// argument is a int, Node object for project
-void Node::addNode (Rect new_rect, Node* next_Node){
+	/** Dr Brinkman's code
+		Node* newNode = new Node(depth,position_,Vec2f(0.0,0.0),0.45*radius_);
 
-	/// you would need to dereference the arguments to use the value
-	// *new_Node = something
+			if(children_ != NULL){
+				insertAfter(newNode, children_);
+				} else {
+				children_ = newNode;
+				}
+			}
+		*/
 
-	// ? do I need to pass in the Node* next_Node ?
-	
-	/**
-	/// in simple terms
-	t->next = x->next;	//(1) sets t pointer to value that x pointer has
-	x->next = t;        //(2) change x pointer to t node
+// }
 
-	 {
-	   link* newlink = new link;          // make a new link
-	   newlink->Node = new_Node;          // give it data
-	   newlink->next = first;             // it points to next link
-	   first = newlink;                   // now first points to this
-	   }
-
-
-}
-*/
 
 
 /**
@@ -147,39 +118,7 @@ void deleteNode (Node* delNode){
 // argument is a Node pointer for project
 void reverseList (Node* sentinel){
 	
-	/*** FROM BOOK USING STRUCT
-	link reverse(link x)
-  { link t, y = x, r = 0;
-    while (y != 0)
-      { t = y->next; y->next = r; r = y; y = t; }
-    return r;
-  }
-  */
-
-	/**
-	(1 : seems complicated)
-	1-2-3-4 becomes 4-3-2-1
-	switch pointers; use a tempNode to hold the value of the one you're switching
-	4 -> 1
-	3-> 2
-	2 -> 3
-
-	or 
-
-	(2 : seems fairly practical)
-	Swap pointers of data item
-	4 <-> 1
-	3 <-> 2
-
-	or
-
-	(3 : seem practical as well and gives me the bonus of using a circular list)
-
-	Use a double linked list with next_ and prev_ so that you switch those values: 	1-2-3-4
-	
-	vars: node* sentinal, current_, prev_, next_, tmpNext;	// declare these above in class declaration
-	*/
-	
+		
 	//(1) get to end of list 
 			Node* end;
 			Node* tmpNext;
@@ -199,12 +138,12 @@ void reverseList (Node* sentinel){
 	
 			tmpNext = cur -> next_;				// set tmpNext to the current_ node's next pointer
 			cur -> next_ = cur -> prev_;		// set current node's next_ pointer to 
-														//  the current_'s previous pointer
-			cur -> prev_ = tmpNext;   // set current node's previous pointer to 
-														//  the current_'s next pointer (stored in tmpNext_)
+												//  the current_'s previous pointer
+			cur -> prev_ = tmpNext;				// set current node's previous pointer to 
+												//  the current_'s next pointer (stored in tmpNext_)
 
 			//(4)	move current back one
-			cur = cur -> next_;				// next_ is now pointing to the current's previous, we just switched it above, so we have to use next_
+			cur = cur -> next_;					// next_ is now pointing to the current's previous, we just switched it above, so we have to use next_
 
 			// we want the changes to go back through the sentinel and stop at the end (now beginning)  node
 			}
@@ -232,24 +171,20 @@ void reorderList (Node* fromNode, Node* toNode){
 
 
 /**
-* reorderList
+* traverseList
 *@param sentinel 
 * start at the first item and iterate thru list
 */
-
 void traverseList (Node* sentinel){
 	
 	Node* cur;
-
-	// ? can I use the same cur_ I have declared above ?
 	cur = sentinel -> next_;	// set cur to first item, which is after the sentinel
-	
+
 	while (cur != sentinel){	// move forward through the list
 
 			displayNode (cur);	
 	}
 		cur = cur -> next_ ;	// update the cur to the next node
-
 }
 
 
@@ -277,26 +212,7 @@ void displayNode (Node* inNode){
 				*/    
 }
 
-   /**
-	* addChild
-	* @param inNode
-	* // adds a child node at the node passed in
-	*/
-
-void addChild(int inNode){
-
-	/** Dr Brinkman's code
-		Node* newNode = new Node(depth,position_,Vec2f(0.0,0.0),0.45*radius_);
-
-			if(children_ != NULL){
-				insertAfter(newNode, children_);
-				} else {
-				children_ = newNode;
-				}
-			}
-		*/
-
-}
+ 
 
 /**
 * nodeCount
