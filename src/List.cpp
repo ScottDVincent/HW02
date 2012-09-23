@@ -1,6 +1,6 @@
 /*
  * @file Node.cpp
- *``
+ *
  * @author Scott Vincent
  * @date 09/09/2012
  * CSE 274 - Fall 2012
@@ -23,19 +23,6 @@ using namespace ci::app;
 using namespace std;		// standard library
 
 
-
-
-// STEP 1
-	/**
-	? Have to create a list with one empty node in it.
-	--> do that in HW02App setup()
-	*/
-
-	/** 
-	Default Node constructor
-	  
-	Node::Node(){
-	}*/
 
 	/** 
 	 * Constructs Node object which points to itself and has a data_ member
@@ -106,6 +93,9 @@ using namespace std;		// standard library
 
 	}
 
+void addChild (Rect* childRect, Node* parentNode){
+
+}
 
 
 
@@ -238,8 +228,6 @@ void reorderList (Node* fromNode, Node* toNode){
 	fromNode->prev_ = toNode;						// set cur prev_ to the toNode (behind it)
 	toNode->next_ = fromNode;						// set toNode next to cur
 	fromNode->next_->prev_ = fromNode;				// set new cur's next's prev back to cur
-
-
 }
 
 
@@ -275,9 +263,7 @@ void displayNode (Node* inNode){
 	  
 	// draw this single node being passed in
 
-
 	//return;
-
 
 		   /**
 		   	bool areOverlapping = isInside(mp.x, mp.y);

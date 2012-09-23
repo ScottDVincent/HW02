@@ -43,14 +43,6 @@ using namespace std;		// standard library
 		inColor_ = inColor;
 		shakeFactor_ = shake;
 		
-		/**
-		// put the argument color into an array to use later
-		newColor = new uint8_t[3];
-		//question is how to get the colors from the function call into the array
-		newColor[0] = inColor_.r;
-		newColor[1] = inColor_.g;
-		newColor[2] = inColor_.b;
-		*/
 }
 
 
@@ -86,24 +78,6 @@ void Rect::drawRect(){
 //using cinder: http://libcinder.org/docs/v0.8.2/hello_cinder_chapter3.html
 
 	int shadowOffset = 3;
-
-/**
-	// set color
-	gl::color(inColor_);
-	
-//	gl::color(inColor_.r, inColor_.g, inColor_.b);
-//    gl::color(newColor[0], newColor[1], newColor[2]);// this will cause the clicked blocks to draw around the setup() draw blocks but not overtop ot them
-//  gl::color(rand_red_, rand_green_, rand_blue_); //draws nothing but white
-
-//  draw rectangle
-		int shakeX_ = rand()%shakeFactor_;
-		int shakeY_ = rand()%shakeFactor_;
-		gl::drawSolidRect(Rectf (x1_+ shakeX_, y1_+ shakeY_, x2_+shakeX_, y2_+shakeY_) );
-
-		int shake_ = rand()%shakeFactor_;
-		gl::drawSolidRect(Rectf (x1_+ shake, y1_+ shake, x2_+shake, y2_+shake) );
-		*/
-
 	int shake = rand()%shakeFactor_;
 	shadowOffset += shake;
 
@@ -117,14 +91,11 @@ void Rect::drawRect(){
 		//turn off alpha
 		gl::disableAlphaBlending();	
 
-		// set the color of the lsit rectangle
+		// set the color of the list rectangle		
 		gl::color(inColor_);	
 		// draw list rectangle
 		gl::drawSolidRect(Rectf (x1_+ shake, y1_+ shake, x2_+shake, y2_+shake) );
 		
-	
-
-
 }
 
 /**

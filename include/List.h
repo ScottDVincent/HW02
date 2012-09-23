@@ -11,15 +11,10 @@
  * CC BY 3.0 license (http://creativecommons.org/licenses/by/3.0/),
  * which means you are free to use, share, mashup and remix it as long as you
  * give attribution. Commercial uses are allowed.
- *
-
  */
-/**
-// other ideas
-http://www.martinbroadhurst.com/articles/circular-linked-list.html
- */ 
 
-////////////////////////////////////////
+
+
 #pragma once
 #include "Rect.h"
 
@@ -32,10 +27,9 @@ public:
 
 			
 	// External node pointers to the list
-	//Node* cur_;
 	Node* next_;
 	Node* prev_;
-	//Node* children_;
+	Node* children_;
 
 	// a Rect object to hold data	
 	Rect* data_;		
@@ -57,7 +51,14 @@ public:
 	*/
 	void insertAfter (Rect* new_rect, Node* current);
 
+	/**
+	 @name: addChild
+	 @param: Rect  : the rectangle object 
+	 @param: Node* : a node pointer to where the item is being placed in the list
+	*/
+	void addChild (Rect* childRect, Node* parentNode);
 	
+
 	/**
 	* void deleteNode
 	* @param Node* delNode: Pointer to addy of the node to be deleted

@@ -32,8 +32,6 @@ public:
 	Rect ();																  // no argument constructor
 	Rect (float x1, float y1, float x2, float y2, Color8u color, int shake);  //cinder construct
 	
-	// old code: Rect (uint8_t* pixels, int x_width, int y_height, int x_origin, int y_origin, Color8u c);  // argument constructor
-
 
 	/// Member Variables
 	// pointers to nodes, perhaps use here or else have these pointers in the Node class
@@ -41,22 +39,15 @@ public:
 	Rect* rectNext_;
 	Rect* rectPrev_;
 
-
-	//uint8_t* pixels; int x_width; int y_height;	int x_origin; int y_origin;	Color8u c;
-
+	
 	// for rect shape
 	float x1_, y1_, x2_, y2_;
 	Color8u inColor_;
-	uint8_t* newColor; 
-	
-	//Color8u colorRect;
+	//uint8_t* newColor; 
     int shakeFactor_ ;
 
-	
 	/// Member Methods
 	void randomColor();
-	void shake(int shakeFactor);
-
 	void shakeMore();
 	void shakeLess();
 	

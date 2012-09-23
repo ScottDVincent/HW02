@@ -11,6 +11,12 @@
  * which means you are free to use, share, and remix it as long as you
  * give attribution. Commercial uses are allowed.
  *
+ * This program satisfies requirements:
+ (A) Draw a linked-list data structure
+ (B) App displays a menu at beginning
+ (D) Items on the screen move of their own accord
+ (E) Have a reverse procredure for the list
+ (H) Creates a drop shadow for each of the rectangles showing depth
  */
 
 
@@ -55,10 +61,6 @@ class HW02App : public AppBasic {
 
 
 private:
-
-	  // define the List
-	  //Node* theList_;
-
 	  
 	  // define sentinel
 	  Node* sentinel_;
@@ -70,7 +72,7 @@ private:
 		static const int TextureSize=1024; //Must be the next power of 2 bigger or equal to app dimensions
 		Surface* mySurface_;
 		uint8_t* dataArr;
-		//bgColor = new Color8u (255,255,255);
+	
 		
 		
 		//Track how many frames we have shown, for animation purposes
@@ -79,14 +81,17 @@ private:
 
 
 		// declare the menu parameters
+		bool hideMenu;  //When true, removes the instructions
+		Font* font;		//Part of the cinder drawString method 
+
+
+		//maybe I'll need these
 		bool menuOn_;
 		Surface* menu_;
 		Surface* background_;
 		gl::Texture theImage;
-		bool hideText;  //When true, removes the instructions
-		Font* font;		//Part of the cinder drawString method 
 
-		//maybe I'll need these
+		
 		Rect* tempRect_;
 		int red_;
 		int green_;
@@ -111,20 +116,15 @@ void HW02App::randomColor(){
 
 void HW02App::setup(){
 
-	//** local vars
-		
-	
+	//	Setup the text menu 
+	font = new Font("Arial",28);
+	hideMenu = false;
 
+/**
 	// prepare the surface
 	//mySurface_ = new Surface(TextureSize,TextureSize,false);
 	//dataArr = mySurface_->getData();
 	
-	
-	//	Setup text
-	font = new Font("Arial",28);
-	hideText = false;
-
-
 	// set the menu image function to on
 	menuOn_ = true;
 	//theImage = gl::Texture( loadImage( loadResource( RES_MENU ) ) );
@@ -132,53 +132,23 @@ void HW02App::setup(){
 	
 	//menu_ = new Surface(TextureSize, TextureSize, true);
 	//background_ = new Surface(TextureSize, TextureSize, true);
-
+*/
 	
 	/**
 	First:	construct the sentinel node
 	//Establishes the inital sentinal node for our circular list. 
 	*/
 	sentinel_ = new Node;
-	
 
-    
+    //	http://libcinder.org/docs/v0.8.4/classcinder_1_1_rect_t.html#adf917a76e5a25087be8094989d4e352d
+	
 	/**
-	Second:
-	/// make node call 4x for rectangles
-
-	this is the code from cinder web
-		Rectf rect( mLoc.x, mLoc.y, mLoc.x + mRadius, mLoc.y + mRadius );
-		gl::drawSolidRect( rect );
-	?? can I pass in a color?? 
-	
-	http://libcinder.org/docs/v0.8.4/classcinder_1_1_rect_t.html#adf917a76e5a25087be8094989d4e352d
-	Rect::rect(int startX, int startY, int endX, int endY, color() );
-	Rect::rect(100, 100, 200, 200, (100,200,50) );
-	Rect::rect(120, 120, 220, 220, (20,10,150) );
-	Rect::rect(140, 140, 240, 240, (150,150,150) );
-	
-	... or ...
-	Rect::rect(int position, startX+20, startY+20, endX+20, endY+20, (200,100,50) );
-	
-	...	or ...
-	Node::insertAfter (Rect::rect(int position, 100, 50, 100, 100, (200,100,50), node) );
-
-
-	Third:
-	?? how do we add this rect node to the link list
-	?  insertAfter();
-	theList_ = new Node(rect1, sentinel_);
-	theList_ ;
-	
-	drawRect(10,10,50,50,new Color8u(0,0,0), new Color8u(255,0,0), dataArr);
-    insertNode(sentinel, 600, 190, 100);
-    insertNode(sentinel->next, 400, 350, 100);
+	Second:	
+	// create an initial list of rectangles
 	*/
-	
 	int offset = 0;
-	for (int i=1; i<=6; i++){ 
 
-		//randomColor();
+	for (int i=1; i<=6; i++){ 
 		Rect* new_rect = new Rect (10.0+offset, 10.0+offset, 50.0+offset, 50.0+offset,  Color8u(rand()%256,rand()%256,rand()%256), 3); 
 		insertAfter(new_rect, sentinel_ -> next_);
 
@@ -194,26 +164,28 @@ void HW02App::setup(){
 		*/
 		offset +=20;
 	}
+
+
+	/**
+	Third:	
+	// add three children to the first node and see if they follow it. use the reorder function to test
+	*/
+	Node* firstChild = sentinel_-> children_; // this will create the head child node
+
 }
 
 
 void HW02App::mouseDown( MouseEvent event ) {
 	
-	/// if doing something with coordinates:
-	//int x = event.getX();
-	//int y = event.getY();
-	
+	//reverses list
 	 if( event.isRight() ) {
 		reverseList(sentinel_);
     }
-
-	  if( event.isLeft() ) {
-		 // call something list
+	// creates a new node
+	 if( event.isLeft() ) {
 		 Rect* new_rect = new Rect (event.getX(), event.getY(), event.getX()+rand()%50, event.getY()+rand()%50,  Color8u(rand()%256, rand()%256, rand()%256), 3 ) ;
 		 insertAfter(new_rect, sentinel_);
     }
-
-	
 }
 
 
@@ -221,23 +193,23 @@ void HW02App::mouseDown( MouseEvent event ) {
 /**
 libcinder.org/docs/v0.8.2/hello_cinder_chapter3.html
 */
+
 void  HW02App::keyDown( KeyEvent event ) {
 	
-
     if( event.getChar() == 'q' ){
 		 //call reverse node
 		reverseList(sentinel_);	
     } else if( event.getChar() == 'w' ){
        // call reorder list
         reorderList (sentinel_ -> next_ , sentinel_ -> next_ -> next_);
-    } else if( event.getChar() == 'e' ){
-        // call rearrange rect node
 	} else if(  event.getCode() == KeyEvent::KEY_RIGHT ){
 		//shakeMore();
 	} else if( event.getCode() == KeyEvent::KEY_LEFT ){
 		 //shakeLess();
-	} else if(event.getChar() == '/') {
-			hideText = true;
+	} else if ((event.getChar() == '/') && hideMenu == false) {
+			hideMenu = true;
+	} else if ((event.getChar() == '/') && hideMenu == true) {
+			hideMenu = false;
 /**
     } else if( event.getChar() == '?' ){
         if (menuOn_) {
@@ -272,17 +244,13 @@ void HW02App::showMenu(){
 void HW02App::update()
 {
 	// show console with controls q, w, e, r, t,
-	// keep the instructions in the console screen
-	 console() << "Press Q for something. \n Press W for something else. \n Press E for something else. \n Press T for something else. \n Press ? to toggle the display. \n "  << std::endl;
-
-	// maybe throw in something with getElapsedTime to get the rects to move a little 
+	// console() << "Press Q for something. \n Press W for something else. \n Press E for something else. \n Press T for something else. \n Press ? to toggle the display. \n "  << std::endl;
 
 }
 
 void HW02App::draw(){
 
-
-	if(!hideText)                         //If ? hasn't been pressed, draw instructions
+	if(!hideMenu)                         // draw menu initially
 	{	
 		gl::drawString("Menu Operations: q = reverses list, w = reorders list.", Vec2f(50.0f,200.0f),Color(0.0f,0.5f,0.0f), *font);	
 		gl::drawString("Menu Operations: Left click adds a node, right click reverse node", Vec2f(50.0f,250.0f),Color(0.0f,0.5f,0.0f), *font);	
@@ -290,7 +258,9 @@ void HW02App::draw(){
 	    } else	{	
 		gl::clear(Color( 255, 255, 255 ));//Clear out text and makes screen white to better see occlusion
 	}
-		// clear out the window with white
+		
+	
+	// clear out the window with white
 		//gl::clear( Color( 255, 255, 255 ), true  ); 
 
 
