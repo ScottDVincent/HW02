@@ -24,6 +24,7 @@
 #include "cinder/Rand.h"
 #include "cinder/ImageIo.h"
 #include "cinder/app/KeyEvent.h"
+#include "cinder/Text.h"
 
 //my includes
 #include "List.h"				// class header
@@ -82,10 +83,11 @@ private:
 		Surface* menu_;
 		Surface* background_;
 		gl::Texture theImage;
-		
-		//maybe I'll need this
-		Rect* tempRect_;
+		bool hideText;  //When true, removes the instructions
+		Font* font;		//Part of the cinder drawString method 
 
+		//maybe I'll need these
+		Rect* tempRect_;
 		int red_;
 		int green_;
 		int blue_;
@@ -117,9 +119,14 @@ void HW02App::setup(){
 	//mySurface_ = new Surface(TextureSize,TextureSize,false);
 	//dataArr = mySurface_->getData();
 	
+	
+	//	Setup text
+	font = new Font("Arial",28);
+	hideText = false;
+
+
 	// set the menu image function to on
 	menuOn_ = true;
-	
 	//theImage = gl::Texture( loadImage( loadResource( RES_MENU ) ) );
 	//Surface menu_ (loadImage( loadResource(RES_MENU) ) );
 	
@@ -172,7 +179,7 @@ void HW02App::setup(){
 	for (int i=1; i<=6; i++){ 
 
 		//randomColor();
-		Rect* new_rect = new Rect (10.0+offset, 10.0+offset, 50.0+offset, 50.0+offset,  Color8u(rand()%256,rand()%256,rand()%256), rand()%10); //red+offset, blue+offset, green+offset) ) ;
+		Rect* new_rect = new Rect (10.0+offset, 10.0+offset, 50.0+offset, 50.0+offset,  Color8u(rand()%256,rand()%256,rand()%256), 3); 
 		insertAfter(new_rect, sentinel_ -> next_);
 
 		/** add manually
@@ -202,7 +209,7 @@ void HW02App::mouseDown( MouseEvent event ) {
 
 	  if( event.isLeft() ) {
 		 // call something list
-		 Rect* new_rect = new Rect (event.getX(), event.getY(), event.getX()+rand()%50, event.getY()+rand()%50,  Color8u(rand()%256, rand()%256, rand()%256), rand()%10 ) ;
+		 Rect* new_rect = new Rect (event.getX(), event.getY(), event.getX()+rand()%50, event.getY()+rand()%50,  Color8u(rand()%256, rand()%256, rand()%256), 3 ) ;
 		 insertAfter(new_rect, sentinel_);
     }
 
@@ -218,16 +225,20 @@ void  HW02App::keyDown( KeyEvent event ) {
 	
 
     if( event.getChar() == 'q' ){
-        reorderList (sentinel_ -> next_ , sentinel_ -> next_ -> next_);
+		 //call reverse node
+		reverseList(sentinel_);	
     } else if( event.getChar() == 'w' ){
-        //call reverse node
-		reverseList(sentinel_);
+       // call reorder list
+        reorderList (sentinel_ -> next_ , sentinel_ -> next_ -> next_);
     } else if( event.getChar() == 'e' ){
         // call rearrange rect node
 	} else if(  event.getCode() == KeyEvent::KEY_RIGHT ){
-		// shakeMore();
+		//shakeMore();
 	} else if( event.getCode() == KeyEvent::KEY_LEFT ){
 		 //shakeLess();
+	} else if(event.getChar() == '/') {
+			hideText = true;
+/**
     } else if( event.getChar() == '?' ){
         if (menuOn_) {
 			// toggle console to off
@@ -237,6 +248,7 @@ void  HW02App::keyDown( KeyEvent event ) {
 			menuOn_ = true; //menuOn_ = true
 			
 		}
+		*/
     }
 
 
@@ -263,14 +275,23 @@ void HW02App::update()
 	// keep the instructions in the console screen
 	 console() << "Press Q for something. \n Press W for something else. \n Press E for something else. \n Press T for something else. \n Press ? to toggle the display. \n "  << std::endl;
 
-	
+	// maybe throw in something with getElapsedTime to get the rects to move a little 
 
 }
 
-void HW02App::draw()
-{
+void HW02App::draw(){
+
+
+	if(!hideText)                         //If ? hasn't been pressed, draw instructions
+	{	
+		gl::drawString("Menu Operations: q = reverses list, w = reorders list.", Vec2f(50.0f,200.0f),Color(0.0f,0.5f,0.0f), *font);	
+		gl::drawString("Menu Operations: Left click adds a node, right click reverse node", Vec2f(50.0f,250.0f),Color(0.0f,0.5f,0.0f), *font);	
+		gl::drawString("Press ? to toggle menu.", Vec2f(50.0f,300.0f),Color(0.0f,0.5f,0.0f),*font);	
+	    } else	{	
+		gl::clear(Color( 255, 255, 255 ));//Clear out text and makes screen white to better see occlusion
+	}
 		// clear out the window with white
-		gl::clear( Color( 255, 255, 255 ), true  ); 
+		//gl::clear( Color( 255, 255, 255 ), true  ); 
 
 
 		// draw background, if I decide to use it

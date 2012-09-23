@@ -15,18 +15,25 @@
 //#include "cinder/gl/gl.h"
 #include "math.h"
 #include "Rect.h"
-
+#include "cinder/gl/gl.h"
+#include "cinder/app/AppBasic.h"
+#include "cinder/gl/Texture.h"
 
 using namespace ci;
 using namespace ci::app;
 using namespace std;		// standard library
 
 
-	// constructor
-
+	
+	/** 
+	Default Rect constructor
+	*/  
 	Rect::Rect(){
 	}
 
+	/**
+	*
+	*/
 	Rect::Rect (float x1, float y1, float x2, float y2, Color8u inColor, int shake ) {	
 		x1_ = x1;
 		y1_ = y1;
@@ -57,7 +64,16 @@ void randomColor(){
 
 
 void Rect::shakeMore(){ 
-	shakeFactor_ += shakeFactor_;
+	// would this update the shakeFactor_ for each object?
+	//shakeFactor_ += shakeFactor_;
+	// or would I need to do this with a loop?
+	
+	/**
+	 for (Node* cur_ = sentinel->next_; cur_ != sentinel; cur_ = cur_->next_)
+		{
+		       cur_-> data_ -> shakeFactor_ += shakeFactor_;		//for each data_ member of each node call the drawRect method
+		}
+	 */
 }
 
 void Rect::shakeLess(){
@@ -69,24 +85,44 @@ void Rect::drawRect(){
 
 //using cinder: http://libcinder.org/docs/v0.8.2/hello_cinder_chapter3.html
 
-// set color
-//    gl::color(newColor[0], newColor[1], newColor[2]);// this will cause the clicked blocks to draw around the setup() draw blocks but not overtop ot them
-	
+	int shadowOffset = 3;
+
+/**
+	// set color
 	gl::color(inColor_);
 	
 //	gl::color(inColor_.r, inColor_.g, inColor_.b);
-
+//    gl::color(newColor[0], newColor[1], newColor[2]);// this will cause the clicked blocks to draw around the setup() draw blocks but not overtop ot them
 //  gl::color(rand_red_, rand_green_, rand_blue_); //draws nothing but white
 
 //  draw rectangle
-		
 		int shakeX_ = rand()%shakeFactor_;
 		int shakeY_ = rand()%shakeFactor_;
-
 		gl::drawSolidRect(Rectf (x1_+ shakeX_, y1_+ shakeY_, x2_+shakeX_, y2_+shakeY_) );
 
+		int shake_ = rand()%shakeFactor_;
+		gl::drawSolidRect(Rectf (x1_+ shake, y1_+ shake, x2_+shake, y2_+shake) );
+		*/
 
+	int shake = rand()%shakeFactor_;
+	shadowOffset += shake;
 
+	// Create a Drop Shadow for each rectangle giing depth to an object [Goal H]
+		// turn on alpha blending
+		gl::enableAlphaBlending();
+		//activate the alpha channel
+		gl::color(ColorA(0.0f,0.0f,0.0f,0.25f));
+		// draw a rectangle offset from the primary rect
+		gl::drawSolidRect(Rectf (x1_+shadowOffset, y1_+shadowOffset, x2_+shadowOffset, y2_+shadowOffset),  6.0f);
+		//turn off alpha
+		gl::disableAlphaBlending();	
+
+		// set the color of the lsit rectangle
+		gl::color(inColor_);	
+		// draw list rectangle
+		gl::drawSolidRect(Rectf (x1_+ shake, y1_+ shake, x2_+shake, y2_+shake) );
+		
+	
 
 
 }

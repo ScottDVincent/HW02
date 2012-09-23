@@ -31,7 +31,15 @@ using namespace std;		// standard library
 	--> do that in HW02App setup()
 	*/
 
-	//Constructor for Node
+	/** 
+	Default Node constructor
+	  
+	Node::Node(){
+	}*/
+
+	/** 
+	 * Constructs Node object which points to itself and has a data_ member
+	*/  
 	Node::Node(){
 		next_ = prev_ = this;		// create self-referential node; the assignments go in reverse order
 		data_ = new Rect();			// data item will be a Rect object
@@ -41,24 +49,29 @@ using namespace std;		// standard library
 
 
 
+	/** 
+	 * Constructs Node object which points to itself and has a data_ member
+	 * @param new_Rect: creates a new Rect object pointer
+	 * @param cur: is the current node we are inserting after, in this case the sentinal node 
+	*/ 
 
-// insertAfter method but perhaps it should be insertBefore since we want to insert at the end
-void insertAfter (Rect* new_rect, Node* cur) {
+	// insertAfter method but perhaps it should be insertBefore since we want to insert at the end
+	void insertAfter (Rect* new_rect, Node* cur) {
 	
 	/**
 	* in this example "cur" is the node we are placing a new node after
 	*/
 	//Node* tmpPrev;						// ? should this be a Node* type ?
 	
-	// create new node	
+	// actually creates the new node	
 	Node* newNode_p = new Node;			// allocating space for a new Node pointer
 	newNode_p -> data_ =  new_rect;	    // 1: the data will be the rectangle info we are sending in
 	
 	
 	// DO THE NODE SWITCHING
 	//take care if newNode_p pointers first
-	newNode_p -> prev_ = cur;					//
-	newNode_p -> next_ = cur -> next_;			//
+	newNode_p -> prev_ = cur;					// set the newNode's prev to point to current, the one before it
+	newNode_p -> next_ = cur -> next_;			// 4: points the new Node to what it's previous node was pointing to
 	
 	cur -> next_ = newNode_p;					// alter current node pointer
 	newNode_p -> next_ -> prev_ = newNode_p;	// dereference newNode_p's pointers twice
@@ -122,18 +135,25 @@ void Node::addNode (Rect new_rect, Node* next_Node){
 */
 
 
-
-// argument is a Node object 
+/**
+* deleteNode
+*@param delNode argument is a Node object you want to delete
+*/
 void deleteNode (Node* delNode){
 
 	 delNode-> next_-> prev_ = delNode-> prev_; //(1) sets t up as the link from x
 	 delNode-> prev_-> next_ = delNode-> next_; //(2) x link points to whatever t link points to
-	 delete delNode;						    //(3) the memory space for t is deleted	
+	 delete delNode;							//(3) the memory space for t is deleted
+	 //--nodeCount_;
 
 	//nodeCount_ -= nodeCount_;		// decement count of items in list
 }
 
 
+/**
+* reverses the list order 
+*@param sentinel , we will start at the sentinel node
+*/
 // argument is a Node pointer for project
 void reverseList (Node* sentinel){
 	
@@ -204,7 +224,11 @@ void reverseList (Node* sentinel){
 }
 
 
-
+/**
+* reorderList
+*@param fromNode node you want to move
+*@param toNode where you want to move this node
+*/
 void reorderList (Node* fromNode, Node* toNode){
 
 	fromNode->next_->prev_ = fromNode->prev_;		// set cur next 's prev to the one before cur
@@ -219,7 +243,12 @@ void reorderList (Node* fromNode, Node* toNode){
 }
 
 
-// start at the first item and iterate thru list
+/**
+* reorderList
+*@param sentinel 
+* start at the first item and iterate thru list
+*/
+
 void traverseList (Node* sentinel){
 	
 	Node* cur;
@@ -237,12 +266,17 @@ void traverseList (Node* sentinel){
 
 
 
-
-// argument is a int, Node object for project
+/**
+* displayNode
+*@param inNode 
+*argument is a a single Node object, passed in from traverseList,  to be printed
+*/
 void displayNode (Node* inNode){		
-	
-          // drawRect(inNode->X1, inNode->Y1, inNode->X2, inNode -> Y2, inNode -> color, inNode ->shake );
+	  
+	// draw this single node being passed in
 
+
+	//return;
 
 
 		   /**
@@ -254,15 +288,15 @@ void displayNode (Node* inNode){
 				} else {
 				gl::color(Color8u(255,0,0));
 				}
-				*/
-
-
-
-     
+				*/    
 }
 
+   /**
+	* addChild
+	* @param inNode
+	* // adds a child node at the node passed in
+	*/
 
-// adds a child node at the node passed in
 void addChild(int inNode){
 
 	/** Dr Brinkman's code
@@ -278,8 +312,11 @@ void addChild(int inNode){
 
 }
 
-
-// return an int with the number of nodes, including the sentinel
+/**
+* nodeCount
+@param sentinel start counting from the sentinel
+*return an int with the number of nodes, including the sentinel
+*/ 
 int nodeCount (Node* sentinel){
 
 		Node* cur = sentinel -> next_;

@@ -26,7 +26,7 @@ http://www.martinbroadhurst.com/articles/circular-linked-list.html
 class Node{
 public:		
 
-	// constructor
+//constructors
 	Node();
 	Node(Rect* data, Node* node);
 
