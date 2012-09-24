@@ -118,9 +118,8 @@ void HW02App::setup(){
 	// add three children to the first node and see if they follow it. use the reorder function to test
 	*/
 	firstChild_ = new Node();
-	firstChild_ = sentinel_-> next_ ;				// ? this will create the head child node
-	//firstChild_ = sentinel_-> next_ -> children_; // ! this causes a crash
-
+	firstChild_ = sentinel_-> next_ ;				// this will create the head child node
+	
 }
 
 
@@ -215,9 +214,7 @@ void HW02App::draw(){
 		//child node doesn't draw when I call it so I have no idea if the method is actually creating a child node
 			   if (cur_ -> children_ != NULL)
 				   // loop thru the child nodes somehow
-				   for (Node* curChild_ = cur_ -> children_; curChild_ -> children_ != NULL; curChild_ = curChild_-> next_)
-					   //or
-					   // for (Node* curChild_ = cur_ -> children_; curChild_ -> children_ != firstChild_; curChild_ = curChild_-> next_)  
+				   for (Node* curChild_ = cur_ -> children_; curChild_ -> children_ != NULL; curChild_ = curChild_-> next_)			
 				   curChild_-> data_ -> drawRect();
 		}	
 }

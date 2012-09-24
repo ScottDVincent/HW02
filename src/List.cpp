@@ -68,12 +68,11 @@ using namespace std;		// standard library
 	*/
 void addChild (Rect* childRect, Node* parentNode){
 
-		if(parentNode -> children_ == NULL){        // if this node doesn't have any children
-			Node* children_ = new Node();			// allocating space for a new Node pointer
-			children_ -> data_ =  childRect;	
-			children_ -> prev_ = parentNode;        //adds the first child of the new list at parent node
+		if(parentNode -> children_ == NULL){				// if this node doesn't have any children
+			parentNode -> children_ = new Node();			// turn children into a Node
+			parentNode -> children_ -> data_ =  childRect;	//put data into this new child
 		} else {	
-			insertAfter(childRect, parentNode);		// adds a another node onto the child list
+			insertAfter(childRect, parentNode);				// adds a another node onto the child list
 		}
 }
 
