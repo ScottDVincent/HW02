@@ -34,7 +34,6 @@ public:
 	
 
 	/// Member Variables
-	// pointers to nodes, perhaps use here or else have these pointers in the Node class
 	// ? I'm not sure I need Rect next & prev pointers ? as I will handle this in the node class
 	Rect* rectNext_;
 	Rect* rectPrev_;
@@ -43,11 +42,9 @@ public:
 	// for rect shape
 	float x1_, y1_, x2_, y2_;
 	Color8u inColor_;
-	//uint8_t* newColor; 
     int shakeFactor_ ;
 
 	/// Member Methods
-	void randomColor();
 	void shakeMore();
 	void shakeLess();
 	

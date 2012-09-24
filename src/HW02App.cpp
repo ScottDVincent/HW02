@@ -17,6 +17,7 @@
  (D) Items on the screen move of their own accord
  (E) Have a reverse procredure for the list
  (H) Creates a drop shadow for each of the rectangles showing depth
+ (I) Add child node: It maybe, kinda, works. 
  */
 
 
@@ -31,7 +32,6 @@
 #include "cinder/ImageIo.h"
 #include "cinder/app/KeyEvent.h"
 #include "cinder/Text.h"
-
 //my includes
 #include "List.h"				// class header
 
@@ -68,28 +68,11 @@ private:
 		static const int AppWidth=800;
 		static const int AppHeight=600;
 		static const int TextureSize=1024; //Must be the next power of 2 bigger or equal to app dimensions
-		Surface* mySurface_;
-		uint8_t* dataArr;
-	
 		
 		
-		//Track how many frames we have shown, for animation purposes
-		int frame_number_;
-		boost::posix_time::ptime app_start_time_;
-
-
 		// declare the menu parameters
 		bool hideMenu;  //When true, removes the instructions
 		Font* font;		//Part of the cinder drawString method 
-
-
-		//maybe I'll need these
-		bool menuOn_;
-		Surface* menu_;
-		Surface* background_;
-		gl::Texture theImage;
-
-	
 	
 };  // the above should really go in a .h file
 
@@ -107,27 +90,14 @@ void HW02App::setup(){
 	font = new Font("Arial",28);
 	hideMenu = false;
 
-/**
-	// prepare the surface
-	//mySurface_ = new Surface(TextureSize,TextureSize,false);
-	//dataArr = mySurface_->getData();
-	
-	// set the menu image function to on
-	menuOn_ = true;
-	//theImage = gl::Texture( loadImage( loadResource( RES_MENU ) ) );
-	//Surface menu_ (loadImage( loadResource(RES_MENU) ) );
-	
-	//menu_ = new Surface(TextureSize, TextureSize, true);
-	//background_ = new Surface(TextureSize, TextureSize, true);
-*/
-	
+
 	/**
 	First:	construct the sentinel node
 	//Establishes the inital sentinal node for our circular list. 
 	*/
 	sentinel_ = new Node;
 
-    //	http://libcinder.org/docs/v0.8.4/classcinder_1_1_rect_t.html#adf917a76e5a25087be8094989d4e352d
+    //http://libcinder.org/docs/v0.8.4/classcinder_1_1_rect_t.html#adf917a76e5a25087be8094989d4e352d
 	
 	/**
 	Second:	
@@ -139,16 +109,6 @@ void HW02App::setup(){
 		Rect* new_rect = new Rect (10.0+offset, 10.0+offset, 50.0+offset, 50.0+offset,  Color8u(rand()%256,rand()%256,rand()%256), 3); 
 		insertAfter(new_rect, sentinel_ -> next_);
 
-		/** add manually
-		Rect* new_rect =  new Rect (100, 100, 200, 200, Color8u(100,200,50), 10, );
-		insertAfter(new_rect, sentinel_);
-		Rect* new_rect2 =  new Rect (150, 150, 220, 220, Color8u(50,35,50), 5 );
-		insertAfter(new_rect2, sentinel_);
-		Rect* new_rect3 =  new Rect (180, 180, 250, 250, Color8u(70,200,230), 8 );
-		insertAfter(new_rect3, sentinel_);
-		Rect* new_rect4 =  new Rect (200, 200, 270, 270, Color8u(10,20,150), 1 ); 
-		insertAfter(new_rect4, sentinel_);
-		*/
 		offset +=20;
 	}
 
@@ -221,18 +181,6 @@ void  HW02App::keyDown( KeyEvent event ) {
 } // end keyDown
 
 
-/**
-void HW02App::showMenu(){
-    if (on = 1) {
-		// draw menu screen
-		  menuOn_ = true;
-	} else {
-		// turn menu screen off
-		// have to call the image/resources function from HW01
-		menuOn_ = false;
-	} 
-}
-*/
 
 
 void HW02App::update()
@@ -247,38 +195,23 @@ void HW02App::draw(){
 	if(!hideMenu)                         // draw menu initially
 	{	
 		// libcinder.org/docs/v0.8.2/namespacecinder_1_1gl.html#a8715d619df092110ac326e7a4ab08098
-		gl::drawString("Menu Operations: q = reverses list, w = reorders list.", Vec2f(50.0f,200.0f),Color(0.0f,0.5f,0.0f), *font);	
-		gl::drawString("Menu Operations: Left click adds a node, right click reverse node", Vec2f(50.0f,250.0f),Color(0.0f,0.5f,0.0f), *font);	
-		gl::drawString("Press ? to toggle menu.", Vec2f(50.0f,300.0f),Color(0.0f,0.5f,0.0f),*font);	
+		gl::drawString("Menu Operations: q = reverse list, w = reorder list, e = add child.", Vec2f(50.0f,200.0f),Color(0.0f,0.5f,0.0f), *font);	
+		gl::drawString("Menu Operations: Left click adds a node, right click reverses list.", Vec2f(50.0f,250.0f),Color(0.0f,0.5f,0.0f), *font);	
+		gl::drawString("Menu Operations: Left arrow: slow jitter, Right arrow: increase jitter.", Vec2f(50.0f,300.0f),Color(0.0f,0.5f,0.0f), *font);	
+		gl::drawString("Press ? to toggle menu.", Vec2f(50.0f,350.0f),Color(0.0f,0.5f,0.0f),*font);	
 	    } else	{	
 		gl::clear(Color( 255, 255, 255 )); //Clear out text and makes screen white 
 	}
 		
-	
-	// clear out the window with white
-		//gl::clear( Color( 255, 255, 255 ), true  ); 
 
-
-		// draw background, if I decide to use it
-		//gl::draw(*background_);
-
-		// draw the menu if it's value is true
-		/**
-		if( myImage )
-			gl::draw( myImage, getWindowBounds() );
-
-
-		if(menuOn_){
-		gl::draw(*menu_ , getWindowBounds());
-		}
-		*/
-
-		 //Go through linked list draw every node. 
+		//Go through linked list draw every node. 
 	    for (Node* cur_ = sentinel_->next_; cur_ != sentinel_; cur_ = cur_->next_)
 		{
 		       cur_-> data_ -> drawRect();		//for each data_ member of each node call the drawRect method
 
+		//child node doesn't draw when I call it so I have no idea if the method is actually creating a child node
 			   if (cur_ -> children_ != NULL)
+				   // loop thru the child nodes somehow
 				   cur_-> children_ -> data_ -> drawRect();
 		}	
 }

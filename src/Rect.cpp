@@ -67,11 +67,9 @@ void Rect::drawRect(){
 	shadowOffset += shake;
 
 	// Create a Drop Shadow for each rectangle giing depth to an object [Goal H]
-		
 		// turn on alpha blending
 		//http://libcinder.org/docs/v0.8.2/namespacecinder_1_1gl.html#a2cb8982a5a007376031745ac074bed4c
 		gl::enableAlphaBlending();
-
 		//activate the alpha channel
 		gl::color(ColorA(0.0f,0.0f,0.0f,0.25f));
 		// draw a rectangle offset from the primary rect
@@ -86,27 +84,7 @@ void Rect::drawRect(){
 }
 
 
-/**
 
-// original rect code from HW01
-
-	void Rect::drawRect(uint8_t* pixels, int x_width, int y_height, int x_origin, int y_origin, Color8u cn) {
-
-		if ( (x_width < AppWidth) && (y_height < AppHeight) ){
-		
-		// start at y_origin
-		for ( int y = y_origin; y <= (y_height); y++ ){
-			for ( int  x = x_origin; x <= (x_origin + x_width); x++ ) {
-				pixels [3* (x + y*(TextureSize))  ] = c.r;
-				pixels [3* (x + y*(TextureSize))+1] = c.g;
-				pixels [3* (x + y*(TextureSize))+2] = c.b;
-				//rect_width-1
-				}
-			}
-		} //end if
-
-	} // end drawRect
-*/
 
 
 

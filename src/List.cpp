@@ -23,7 +23,6 @@ using namespace ci::app;
 using namespace std;		// standard library
 
 
-
 	/** 
 	 * Constructs Node object which points to itself and has a data_ member and a child hook
 	*/  
@@ -79,22 +78,6 @@ void addChild (Rect* childRect, Node* parentNode){
 }
 
 
-//void addChild(int inNode){
-
-	/** Dr Brinkman's code
-		Node* newNode = new Node(depth,position_,Vec2f(0.0,0.0),0.45*radius_);
-
-			if(children_ != NULL){
-				insertAfter(newNode, children_);
-				} else {
-				children_ = newNode;
-				}
-			}
-		*/
-
-// }
-
-
 
 /**
 * deleteNode
@@ -112,10 +95,9 @@ void deleteNode (Node* delNode){
 
 
 /**
-* reverses the list order 
-*@param sentinel , we will start at the sentinel node
+* reverseList: reverses the list order 
+* @param sentinel , we will start at the sentinel node
 */
-// argument is a Node pointer for project
 void reverseList (Node* sentinel){
 	
 		
@@ -131,17 +113,11 @@ void reverseList (Node* sentinel){
 
 		do {
 
-			//(3) 
-			//Before  Node		After	Node			What got changed				Temp Node for transition
-			//4 prev_ = 3			4 prev_ = 1				4,3 & 1 are same addy,						
-			//4 next_ = 1         4 next_ = 3				only the prev_ & next_ changed
-	
 			tmpNext = cur -> next_;				// set tmpNext to the current_ node's next pointer
 			cur -> next_ = cur -> prev_;		// set current node's next_ pointer to 
 												//  the current_'s previous pointer
 			cur -> prev_ = tmpNext;				// set current node's previous pointer to 
 												//  the current_'s next pointer (stored in tmpNext_)
-
 			//(4)	move current back one
 			cur = cur -> next_;					// next_ is now pointing to the current's previous, we just switched it above, so we have to use next_
 
@@ -197,19 +173,6 @@ void traverseList (Node* sentinel){
 void displayNode (Node* inNode){		
 	  
 	// draw this single node being passed in
-
-	//return;
-
-		   /**
-		   	bool areOverlapping = isInside(mp.x, mp.y);
-
-				if(areOverlapping){
-					//change color
-				gl::color(Color8u(255,127,00));
-				} else {
-				gl::color(Color8u(255,0,0));
-				}
-				*/    
 }
 
  
