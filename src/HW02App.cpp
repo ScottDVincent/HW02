@@ -118,7 +118,8 @@ void HW02App::setup(){
 	// add three children to the first node and see if they follow it. use the reorder function to test
 	*/
 	firstChild_ = new Node();
-	firstChild_ = sentinel_-> children_; // this will create the head child node
+	firstChild_ = sentinel_-> next_ ;				// ? this will create the head child node
+	//firstChild_ = sentinel_-> next_ -> children_; // ! this causes a crash
 
 }
 
@@ -152,12 +153,14 @@ void  HW02App::keyDown( KeyEvent event ) {
        // call reorder list
         reorderList (sentinel_ -> next_ , sentinel_ -> next_ -> next_);
 	 
-	} else if( event.getChar() == 'e' ){
+	} else if( event.getChar() == 'a' ){
 
 		Rect* new_rect =  new Rect (400, 400, 500, 500, Color8u(100,200,50), 1 );
-		addChild(new_rect, sentinel_ -> next_);
+		addChild(new_rect, firstChild_);
 		Rect* new_rect2 =  new Rect (450, 450, 520, 520, Color8u(50,35,50), 1 );
-		addChild(new_rect2, sentinel_ -> next_);
+		addChild(new_rect2, firstChild_);
+		Rect* new_rect3 =  new Rect (500, 500, 540, 540, Color8u(10,250,150), 1 );
+		addChild(new_rect3, firstChild_);
 
 	} else if(  event.getCode() == KeyEvent::KEY_RIGHT ){
 		for (Node* cur_ = sentinel_->next_; cur_ != sentinel_; cur_ = cur_->next_)
@@ -195,7 +198,7 @@ void HW02App::draw(){
 	if(!hideMenu)                         // draw menu initially
 	{	
 		// libcinder.org/docs/v0.8.2/namespacecinder_1_1gl.html#a8715d619df092110ac326e7a4ab08098
-		gl::drawString("Menu Operations: q = reverse list, w = reorder list, e = add child.", Vec2f(50.0f,200.0f),Color(0.0f,0.5f,0.0f), *font);	
+		gl::drawString("Menu Operations: q = reverse list, w = reorder list, a = add child.", Vec2f(50.0f,200.0f),Color(0.0f,0.5f,0.0f), *font);	
 		gl::drawString("Menu Operations: Left click adds a node, right click reverses list.", Vec2f(50.0f,250.0f),Color(0.0f,0.5f,0.0f), *font);	
 		gl::drawString("Menu Operations: Left arrow: slow jitter, Right arrow: increase jitter.", Vec2f(50.0f,300.0f),Color(0.0f,0.5f,0.0f), *font);	
 		gl::drawString("Press ? to toggle menu.", Vec2f(50.0f,350.0f),Color(0.0f,0.5f,0.0f),*font);	
@@ -212,7 +215,10 @@ void HW02App::draw(){
 		//child node doesn't draw when I call it so I have no idea if the method is actually creating a child node
 			   if (cur_ -> children_ != NULL)
 				   // loop thru the child nodes somehow
-				   cur_-> children_ -> data_ -> drawRect();
+				   for (Node* curChild_ = cur_ -> children_; curChild_ -> children_ != NULL; curChild_ = curChild_-> next_)
+					   //or
+					   // for (Node* curChild_ = cur_ -> children_; curChild_ -> children_ != firstChild_; curChild_ = curChild_-> next_)  
+				   curChild_-> data_ -> drawRect();
 		}	
 }
 
