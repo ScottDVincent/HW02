@@ -55,6 +55,7 @@ class HW02App : public AppBasic {
 	void update();
 	void draw();
 	void randomColor();
+	void render();
 	
 
 private:
@@ -72,7 +73,11 @@ private:
 		
 		// declare the menu parameters
 		bool hideMenu;  //When true, removes the instructions
-		Font* font;		//Part of the cinder drawString method 
+		Font* font;		//Part of the cinder drawString method
+
+	gl::Texture		mTextTexture;
+	Vec2f			mSize;
+	Font			mFont;
 	
 };  // the above should really go in a .h file
 
@@ -85,6 +90,10 @@ void HW02App::prepareSettings(Settings* settings){
 
 
 void HW02App::setup(){
+	//uncomment this code to use render
+	//mFont = Font( "Courier New", 40 );
+	//mSize = Vec2f( 600, 600 );
+	//render();
 
 	//	Setup the text menu 
 	font = new Font("Arial",28);
@@ -173,17 +182,26 @@ void  HW02App::keyDown( KeyEvent event ) {
 		       cur_-> data_ -> shakeLess();		//for each data_ member of each node call the drawRect method
 		} 
 	
-	} else if ((event.getChar() == '/') && hideMenu == false) {
-			hideMenu = true;
-	
-	} else if ((event.getChar() == '/') && hideMenu == true) {
-			hideMenu = false;
+	} 
+	// Got rid of some redundancy here
+	// Also changed the key from '/' to '?' to mirror what is listed in the help menu
+	else if (event.getChar() == '?'){
+		hideMenu = !(hideMenu);
     }
 
 } // end keyDown
 
 
-
+void HW02App::render(){
+	/*string txt = "Menu Operations: q = reverse list, w = reorder list, a = add child.\n"
+		"Menu Operations: Left click adds a node, right click reverses list.\n"
+		"Menu Operations: Left arrow: slow jitter, Right arrow: increase jitter.\n"
+		"Press ? to toggle menu.";
+	TextBox tbox = TextBox().alignment(TextBox::CENTER).font(mFont).size(Vec2i( mSize.x, mSize.y ) ).text( txt );
+	tbox.setBackgroundColor( ColorA( 0.0f, 0.0f, 0.0f ) );
+	mTextTexture = gl::Texture( tbox.render() );
+	*/
+}
 
 void HW02App::update()
 {
@@ -194,13 +212,19 @@ void HW02App::update()
 
 void HW02App::draw(){
 
-	if(!hideMenu)                         // draw menu initially
+		if(hideMenu == false)                         // draw menu initially
 	{	
 		// libcinder.org/docs/v0.8.2/namespacecinder_1_1gl.html#a8715d619df092110ac326e7a4ab08098
-		gl::drawString("Menu Operations: q = reverse list, w = reorder list, a = add child.", Vec2f(50.0f,200.0f),Color(0.0f,0.5f,0.0f), *font);	
-		gl::drawString("Menu Operations: Left click adds a node, right click reverses list.", Vec2f(50.0f,250.0f),Color(0.0f,0.5f,0.0f), *font);	
-		gl::drawString("Menu Operations: Left arrow: slow jitter, Right arrow: increase jitter.", Vec2f(50.0f,300.0f),Color(0.0f,0.5f,0.0f), *font);	
-		gl::drawString("Press ? to toggle menu.", Vec2f(50.0f,350.0f),Color(0.0f,0.5f,0.0f),*font);	
+		//uncomment these two lines to use the render method
+		//gl::color(Color(0.0f,0.5f,0.0f));
+		//gl::draw(mTextTexture);
+		gl::drawString("Menu Operations: q = reverse list, w = reorder list, a = add child.\n"
+			"Menu Operations: Left click adds a node, right click reverses list.\n"
+			"Menu Operations: Left arrow: slow jitter, Right arrow: increase jitter.\n"
+			"Press ? to toggle menu.", Vec2f(50.0f,200.0f),Color(0.0f,0.5f,0.0f), *font);	
+		//gl::drawString("Menu Operations: Left click adds a node, right click reverses list.", Vec2f(50.0f,250.0f),Color(0.0f,0.5f,0.0f), *font);	
+		//gl::drawString("Menu Operations: Left arrow: slow jitter, Right arrow: increase jitter.", Vec2f(50.0f,300.0f),Color(0.0f,0.5f,0.0f), *font);	
+		//gl::drawString("Press ? to toggle menu.", Vec2f(50.0f,350.0f),Color(0.0f,0.5f,0.0f),*font);	
 	    } else	{	
 		gl::clear(Color( 255, 255, 255 )); //Clear out text and makes screen white 
 	}
@@ -216,7 +240,8 @@ void HW02App::draw(){
 				   // loop thru the child nodes somehow
 				   for (Node* curChild_ = cur_ -> children_; curChild_ -> children_ != NULL; curChild_ = curChild_-> next_)			
 				   curChild_-> data_ -> drawRect();
-		}	
+		}
+	
 }
 
 
